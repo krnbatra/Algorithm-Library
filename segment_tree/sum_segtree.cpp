@@ -35,9 +35,9 @@ void build_tree(int node, int start,  int end){
     return;
   }
   //Recurse on the left child.
-  build_tree(2*node, a, (a+b)/2);
+  build_tree(2*node, start, (start+end)/2);
   //Recurse on the right child.
-  build_tree(2*node+1, (a+b)/2+1, b);
+  build_tree(2*node+1, (start+end)/2+1, end);
   //Internal node will have the sum of both its children.
   tree[node] = tree[2*node] + tree[2*node+1];
 }
@@ -45,12 +45,16 @@ void build_tree(int node, int start,  int end){
 int query_sum(int node, int start, int end, int l, int r){
   if(start > end || start > r || end < l)
     return 0; 
-  if(start >= l && end  <= r)
+    //complete overlap
+  if(start >= l && end  <= r)	// l < start < end < r
     return tree[node];
+    //partial overlap
   return query_sum(2*node, start, (start+end)/2, l, r) + query_sum(2*node+1, (start+end)/2+1, end, l, r);
 }
 
 void update_tree(int node, int start, int end, int l, int r, int value){
+  //increase values from l to r by value
+  //no overlap of the l to r segment on the current segment
   if(start > end || start > r || end < l)
     return;
   if(start==end){
@@ -60,7 +64,7 @@ void update_tree(int node, int start, int end, int l, int r, int value){
   }
   update_tree(2*node, start, (start+end)/2, l, r, value);
   update_tree(2*node+1, (start+end)/2+1, end, l, r, value);
-  tree[node] = tree[2*node+1] + tree[2*node]; 
+  tree[node] = tree[2*node] + tree[2*node+1]; 
 }
 
 int main(){

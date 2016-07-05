@@ -24,60 +24,61 @@ template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=
  
 int t;
 int n;
-int seg[1000];
+int arr[1000];
+int tree[1000];
 
-void build_tree(int arr[], int a, int b,int node){
-  if(a > b)
+void build_tree(int node, int start, int end){
+  if(start > end)
     return;
-  if(a==b){
-    seg[node] = arr[a];
+  if(start==end){
+    tree[node] = arr[start];
     return;
   }
-  build_tree(arr, a, (a+b)/2, 2*node);
-  build_tree(arr, (a+b)/2+1, b, 2*node+1);
-  seg[node] = max(seg[2*node], seg[2*node+1]);  
+  build_tree(start, (start+end)/2, 2*node);
+  build_tree((start+end)/2+1, end, 2*node+1);
+  tree[node] = max(tree[2*node], tree[2*node+1]);  
 }
 
-void update_tree(int node, int ss, int se, int l, int r, int value){
+void update_tree(int node, int start, int end, int l, int r, int value){
   if(lazy[node] != 0){
-    seg[node]+=lazy[node];
-    if(ss!=se){
+    tree[node]+=lazy[node];
+    if(start!=end){
       lazy[2*node]+=value;
       lazy[2*node+1]+=value;
     }
     lazy[node] = 0;
   }
-  if(ss > se || ss > r || se < l)
+  if(start > end || start > r || end < l)
     return;
-  if(ss >= l && se <= r){
-    seg[node]+=value;
-    if(ss != se){
+  if(start >= l && end <= r){
+    tree[node]+=value;
+    if(start != end){
       lazy[2*node]+=value;
       lazy[2*node+1]+=value;
     }
     return;
   }
-  update_tree(2*node, ss, (ss+se)/2, l, r, value);
-  update_tree(2*node+1, (ss+se)/2+1, se, l, r, value);
-  seg[node] = max(seg[2*node], seg[2*node+1]);
+  update_tree(2*node, start, (start+end)/2, l, r, value);
+  update_tree(2*node+1, (start+end)/2+1, end, l, r, value);
+  tree[node] = max(tree[2*node], tree[2*node+1]);
 }
-int max_query(int node, int ss, int se, int l, int r){
-  if(ss > se || ss > r || se < l)
+int max_query(int node, int start, int end, int l, int r){
+  if(start > end || start > r || end < l)
     return INT_MIN;
 
   if(lazy[node]!=0){
-    seg[node]+=lazy[node];
-    if(ss != se){
+    tree[node]+=lazy[node];
+    if(start != end){
       lazy[2*node]+=value;
       lazy[2*node+1]+=value;
     }
     lazy[node]=0;
   }
   
-  if(ss >= l && se <= r){
-    return seg[node];
+  if(start >= l && end <= r){
+    return tree[node];
   } 
-  return max(max_query(2*node, ss, (ss+se)/2, l, r), max_query(2*node+1, (ss+se)/2+1, l, r);
+  return max(max_query(2*node, start, (start+end)/2, l, r), max_query(2*node+1, (start+end)/2+1, l, r);
 }
 int main(){
      
