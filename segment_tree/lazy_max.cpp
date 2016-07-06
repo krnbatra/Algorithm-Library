@@ -26,6 +26,7 @@ int t;
 int n;
 int arr[1000];
 int tree[1000];
+int lazy[1000];
 
 void build_tree(int node, int start, int end){
   if(start > end)
@@ -43,8 +44,8 @@ void update_tree(int node, int start, int end, int l, int r, int value){
   if(lazy[node] != 0){
     tree[node]+=lazy[node];
     if(start!=end){
-      lazy[2*node]+=value;
-      lazy[2*node+1]+=value;
+      lazy[2*node]+=lazy[node];
+      lazy[2*node+1]+=lazy[node];
     }
     lazy[node] = 0;
   }
@@ -69,8 +70,8 @@ int max_query(int node, int start, int end, int l, int r){
   if(lazy[node]!=0){
     tree[node]+=lazy[node];
     if(start != end){
-      lazy[2*node]+=value;
-      lazy[2*node+1]+=value;
+      lazy[2*node]+=lazy[node];
+      lazy[2*node+1]+=lazy[node];
     }
     lazy[node]=0;
   }
@@ -78,10 +79,9 @@ int max_query(int node, int start, int end, int l, int r){
   if(start >= l && end <= r){
     return tree[node];
   } 
-  return max(max_query(2*node, start, (start+end)/2, l, r), max_query(2*node+1, (start+end)/2+1, l, r);
+  return max(max_query(2*node, start, (start+end)/2, l, r), max_query(2*node+1, (start+end)/2+1,end, l, r));
 }
 int main(){
-     
+
   return 0;   
 }
-
