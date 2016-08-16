@@ -7,18 +7,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 int n;
-int arr[100005];
+int parent[100005];
 int size[100005];
 void initialize(){
 	for(int i = 1;i <= n; i++){
-		arr[i] = i;
+		parent[i] = i;
 		size[i] = 1;
 	}
 }
 int root(int i){
-	while(i!=arr[i]){
-		arr[i] = arr[arr[i]];
-		i = arr[i];
+	while(i!=parent[i]){
+		parent[i] = parent[parent[i]];
+		i = parent[i];
 	}
 	return i;
 }
@@ -33,10 +33,10 @@ void union1(int a, int b){
 		return;
 	
 	if(size[root_a] < size[root_b]){
-		arr[root_a] = root_b;
+		parent[root_a] = root_b;
 		size[root_b]+=size[root_a];
 	}else{
-		arr[root_b] = root_a;
+		parent[root_b] = root_a;
 		size[root_a]+=size[root_b];
 	}
 }

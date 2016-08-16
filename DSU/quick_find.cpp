@@ -8,24 +8,24 @@
 #include <bits/stdc++.h>
 using namespace std;
 int n;
-int arr[100005];
+int parent[100005];
 void initialize(){
 	for(int i = 1;i <= n; i++){
-		arr[i] = i;
+		parent[i] = i;
 	}
 }
 
 void union1(int a, int b){
-	int temp = arr[a];
+	int temp = parent[a];
 	for(int i = 1;i <= n; i++){
-		if(arr[i] == temp){
-			arr[i] = arr[b];
+		if(parent[i] == temp){
+			parent[i] = parent[b];
 		}
 	}
 }
 
 bool find(int a, int b){
-	return arr[a] == arr[b];
+	return parent[a] == parent[b];
 }
 int main(){
 	n = 5;

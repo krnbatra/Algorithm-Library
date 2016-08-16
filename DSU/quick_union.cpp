@@ -7,16 +7,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 int n;
-int arr[100005];
+int parent[100005];
 void initialize(){
 	for(int i = 1;i <= n; i++){
-		arr[i] = i;
+		parent[i] = i;
 	}
 }
 
 int root(int i){
-	while(i!=arr[i]){
-		i = arr[i];
+	while(i!=parent[i]){
+		i = parent[i];
 	}
 	return i;
 }
@@ -24,7 +24,7 @@ int root(int i){
 void union1(int a, int b){
 	int root_a = root(a);
 	int root_b = root(b);
-	arr[root_a] = root_b;
+	parent[root_a] = root_b;
 }
 
 bool find(int a, int b){
