@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+typedef long long ll;
 using namespace std;
 
 const int MAXN = 1e6+5;
