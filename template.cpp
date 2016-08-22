@@ -31,8 +31,8 @@ void si(int &x){
     for(;c>47 && c<58;c = gc()) {x = (x<<1) + (x<<3) + c - 48;}
     if(neg) x=-x;
 }
- 
+
 int main(){
-	
-	return 0;
+  
+  return 0;
 }
