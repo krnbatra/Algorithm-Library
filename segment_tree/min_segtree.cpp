@@ -24,26 +24,31 @@ template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=
  
 int t;
 int n;
-int tree[400001];
-int arr[100001];
-void build_tree(int node, int start, int end){
+int tree[4000];
+int arr[1000];
+
+void build(int node, int start, int end){
   if(start > end)
     return;
   if(start == end){
     tree[node] = arr[start];
     return;
   }
-  build_tree(2*node, start, (start+end)/2);
-  build_tree(2*node+1, (start+end)/2+1, end);
+  //Recurse on the left child.
+  int mid = (start+end)/2;
+  build(2*node, start, mid);
+  //Recurse on the right child.
+  build(2*node+1, mid+1, end);
   tree[node] = min(tree[2*node], tree[2*node+1]);
 }
 
 int min_query(int node, int start, int end, int l, int r){
   if(start > end || start > r || end < l)
     return INT_MAX;
-  if(start >= l && end <= r)
+  if(l <= start && end <= r)
     return tree[node];
-  return min(min_query(2*node, start, (start+end)/2, l, r), min_query(2*node+1, (start+end)/2+1, end, l, r));
+  int mid = (start+end)/2;
+  return min(min_query(2*node, start, mid, l, r), min_query(2*node+1, mid+1, end, l, r));
 }
 
 void update_query(int node, int start, int end, int l, int r, int value){
@@ -62,7 +67,7 @@ int main(){
   int q;
   cin>>n>>q;
   FOR(i, n) cin>>arr[i];
-  build_tree(1, 0, n-1);
+  build(1, 0, n-1);
   FOR(i, q){
     char c;
     int l, r;

@@ -24,31 +24,39 @@ template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=
  
 int t;
 int n;
-int seg[1000];
+int tree[4000];
+int arr[1000];
 
-void build_tree(int arr[], int a, int b, int node){
-  if(a > b)
+void build(int node, int start, int end){
+  if(start > end)
     return;
-  if(a==b){
-    seg[node]=arr[a];
+  if(start == end){
+    tree[node] = arr[start];
     return;
   }
-  build_tree(arr, a, (a+b)/2, 2*node);
-  build_tree(arr, (a+b)/2+1, b, 2*node+1);
-  seg[node] = max(seg[2*node], seg[2*node+1]);
+  //Recurse on the left child.
+  int mid = (start+end)/2;
+  build(2*node, start, mid);
+  //Recurse on the right child.
+  build(2*node+1, mid+1, end);
+  tree[node] = max(tree[2*node], tree[2*node+1]);
 }
 
-int max_query(int node, int ss, int se, int l, int r){
-  if(ss > se || ss > r || se < l)
+int max_query(int node, int start, int end, int l, int r){
+  if(start > end || start > r || end < l)
     return INT_MIN;
-  if(ss >= l && se <= r)
-    return seg[node];
-  return max(max_query(2*node, ss, (ss+se)/2, l, r), max_query(2*node+1, (ss+se)/2+1, se, l, r));
+  if(l <= start && end <= r)
+    return tree[node];
+  int mid = (start+end)/2;
+  return max(max_query(2*node, start, mid, l, r), max_query(2*node+1, mid+1, end, l, r));
 }
 
 int main(){
-  int arr[] = {1, 3, 5, 7, 9, 11};
-  build_tree(arr, 0, 5, 1);
-  cout<<max_query(1, 0, 5, 1, 3);     
+  for(int i = 0;i < 6; i++){
+    arr[i] = i;
+  }
+  n = 6;
+  build(1, 0, n-1);
+  cout<<max_query(1, 0, 5, 1, 5);     
   return 0;   
 }
