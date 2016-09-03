@@ -8,13 +8,15 @@ typedef vector<ii> vii;
 typedef vector<int> vi;
  
 #define MOD (ll)1000000007
-#define pb 	push_back
+#define pb   push_back
 #define EPS 1e-9
-#define FOR(i, n)	for(int i = 0;i < n; i++)
+#define FOR(i, n)  for(int i = 0;i < n; i++)
 #define pi(a)   printf("%d\n", a)
 #define all(c)  c.begin(), c.end()
 #define tr(container, it)   for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
 #define gc getchar_unlocked
+#define sdi(a, b)   si(a);si(b)
+#define endl '\n'
 
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
 template <typename T> T lcm(T a, T b){return a*(b/gcd(a,b));}
@@ -33,6 +35,7 @@ void si(int &x){
 }
 
 int main(){
-  
-  return 0;
+    ios::sync_with_stdio(false);
+    
+    return 0;
 }
