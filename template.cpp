@@ -16,6 +16,7 @@ typedef vector<int> vi;
 #define tr(container, it)   for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
 #define gc getchar_unlocked
 #define sdi(a, b)   si(a);si(b)
+#define io ios_base::sync_with_stdio(false);cin.tie(NULL);
 #define endl '\n'
 
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
@@ -35,8 +36,7 @@ void si(int &x){
 }
 
 int main(){
-    ios::sync_with_stdio(false);
-    cin.tie(0);
+    io;
     
     return 0;
 }

@@ -37,15 +37,17 @@ void build(int node, int start,  int end){
     return;
   }
   //Recurse on the left child.
-  int mid = (start+end)/2;
-  build(2*node, start, mid);
+  int mid = (start+end)>>1;
+  int left = node<<1, right = left+1;
+  build(left, start, mid);
   //Recurse on the right child.
-  build(2*node+1, mid+1, end);
+  build(right, mid+1, end);
   //Internal node will have the sum of both its children.
-  tree[node] = tree[2*node] + tree[2*node+1];
+  tree[node] = tree[left] + tree[right];
 }
 
-int query_sum(int node, int start, int end, int l, int r){
+//Time Complexity O(log(n))
+int query(int node, int start, int end, int l, int r){
   if(start > end || start > r || end < l)
     return 0; 
     //complete overlap
@@ -53,25 +55,28 @@ int query_sum(int node, int start, int end, int l, int r){
     return tree[node];
     //partial overlap
   int mid = (start+end)/2;
-  return query_sum(2*node, start, mid, l, r) + query_sum(2*node+1, mid+1, end, l, r);
+  int left = node<<1, right = left+1;
+  return query(left, start, mid, l, r) + query(right, mid+1, end, l, r);
 }
 
+//Time Complexity O(log(n))
 void updateIndex(int node, int start, int end,int idx, int value){
   if(start == end){
     tree[node]+=value;
     arr[idx]+=value;
   }else{
     int mid = (start+end)/2;
+    int left = node<<1, right = left+1;
     if(start <= idx && idx <= mid){
-      updateIndex(2*node, start, mid, idx, value);
+      updateIndex(left, start, mid, idx, value);
     }else{
-      updateIndex(2*node+1, mid+1, end, idx, value);
+      updateIndex(right, mid+1, end, idx, value);
     }
-    tree[node] = tree[2*node]+tree[2*node+1];
+    tree[node] = tree[left]+tree[right];
   }
 }
 
-
+//Worst case complexity is O(n)
 void update(int node, int start, int end, int l, int r, int value){
   //increase values from l to r by value
   //no overlap of the l to r segment on the current segment
@@ -83,9 +88,10 @@ void update(int node, int start, int end, int l, int r, int value){
     return;
   }
   int mid = (start+end)/2;
-  update(2*node, start, mid, l, r, value);
-  update(2*node+1, mid+1, end, l, r, value);
-  tree[node] = tree[2*node] + tree[2*node+1]; 
+  int left = node<<1, right = left+1;
+  update(left, start, mid, l, r, value);
+  update(right, mid+1, end, l, r, value);
+  tree[node] = tree[left] + tree[right]; 
 }
 
 int main(){
@@ -96,6 +102,6 @@ int main(){
   int seg_tr_size = 2*pow(2,(int)ceil(log2(n)));
   build(1, 0, n-1);
   update(1, 0, n-1, 1, 3, 3);
-  cout<<query_sum(1, 0, n-1, 2, 4);
+  cout<<query(1, 0, n-1, 2, 4);
   return 0;
 }
