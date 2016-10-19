@@ -10,7 +10,8 @@ typedef vector<int> vi;
 #define MOD (ll)1000000007
 #define pb   push_back
 #define EPS 1e-9
-#define FOR(i, n)  for(int i = 0;i < n; i++)
+#define FOR(i,n)  for(int i = 0;i < n; i++)
+#define FORE(i,a,b) for(int i = a;i <= b; i++)
 #define pi(a)   printf("%d\n", a)
 #define all(c)  c.begin(), c.end()
 #define tr(container, it)   for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
@@ -18,6 +19,9 @@ typedef vector<int> vi;
 #define sdi(a, b)   si(a);si(b)
 #define io ios_base::sync_with_stdio(false);cin.tie(NULL);
 #define endl '\n'
+#define F first
+#define S second
+#define FILL(arr, val)  memset(arr, val, sizeof(arr))
 
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
 template <typename T> T lcm(T a, T b){return a*(b/gcd(a,b));}
@@ -34,7 +38,7 @@ void si(int &x){
     for(;c>47 && c<58;c = gc()) {x = (x<<1) + (x<<3) + c - 48;}
     if(neg) x=-x;
 }
-
+int arr[100];
 int main(){
     io;
     
