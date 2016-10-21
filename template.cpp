@@ -22,6 +22,7 @@ typedef vector<int> vi;
 #define F first
 #define S second
 #define FILL(arr, val)  memset(arr, val, sizeof(arr))
+#define read(arr, n)	for(int i = 0;i < n; i++)cin>>arr[i];
 
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
 template <typename T> T lcm(T a, T b){return a*(b/gcd(a,b));}
@@ -38,9 +39,10 @@ void si(int &x){
     for(;c>47 && c<58;c = gc()) {x = (x<<1) + (x<<3) + c - 48;}
     if(neg) x=-x;
 }
-int arr[100];
+
+
 int main(){
     io;
-    
+	
     return 0;
 }
