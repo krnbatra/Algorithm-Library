@@ -22,7 +22,7 @@ int size;
 string word;
 
 void addWord(Trie* vertex, int idx){
-	if(idx == size){
+	if(idx == word.size()){
 		vertex->words++;
 		return;
 	}
@@ -34,7 +34,7 @@ void addWord(Trie* vertex, int idx){
 }
 
 int countWords(Trie* vertex, int idx){
-	if(idx == size)
+	if(idx == word.size())
 		return vertex->words;
 	else if(vertex->edges[word[idx]-'a'] == NULL)
 		return 0;
@@ -42,7 +42,7 @@ int countWords(Trie* vertex, int idx){
 }
 
 int countPrefixes(Trie* vertex, int idx){
-	if(idx == size)
+	if(idx == prefix.size())
 		return vertex->prefixes;
 	else if(vertex->edges[prefix[idx]-'a'] == NULL)
 		return 0;
