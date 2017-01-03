@@ -22,6 +22,7 @@ void sieve(){
 	}
 }
 /* Time Complexity - O(logN + nloglogN) */
+/* factors will contain 	*/
 vector<int> factors;
 void factorise(int n){
 	sieve();

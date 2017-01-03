@@ -35,9 +35,13 @@ void build(int node, int start, int end){
     tree[node]=arr[start];
     return;
   }
-  build(2*node, start, (start+end)/2);
-  build(2*node+1, (start+end)/2+1, end);
-  tree[node]=tree[2*node]+tree[2*node+1];
+  int mid = (start+end)>>1;
+  int left = node<<1, right = left+1;
+  build(left, start, mid);
+  //Recurse on the right child.
+  build(right, mid+1, end);
+  //Internal node will have the sum of both its children.
+  tree[node] = tree[left] + tree[right];
 }
 void update_range_lazy(int node, int start, int end, int l, int r, int value){
   if(lazy[node]!=0){
@@ -85,4 +89,3 @@ int main(){
      
   return 0;   
 }
-

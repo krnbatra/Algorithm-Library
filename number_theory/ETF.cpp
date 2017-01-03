@@ -5,6 +5,7 @@ using namespace std;
 
 
 /*use when there are large no. of quereis. */
+/*used very rarely*/
 const int MAXN = 1e6+5;
 vector<int> primes;
 int isPrime[MAXN];	//isPrime[i] = 0 indicates i is prime. 
@@ -24,7 +25,6 @@ void sieve(int n){
 	}
 }
 int eulerPhi(int n){
-	sieve(n);
 	int res = n;
 	for(int i = 0;i < primes.size() && (primes[i]*primes[i]) <= n; i++){
 		if(n%primes[i] == 0){
@@ -46,6 +46,7 @@ int eulerPhi(int n){
 */
 
 int main(){
+	sieve(n);
     cout<<eulerPhi(8)<<endl; 
 	return 0;
 }
