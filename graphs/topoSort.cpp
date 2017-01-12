@@ -41,7 +41,7 @@ void si(int &x){
     if(neg) x=-x;
 }
 
-const int MAXN = 1e5+5;
+const int MAXN = 1e4+5;
 vector<int> topo;
 bool vis[MAXN];
 int in_degree[MAXN];    //in_degree[i] denotes the number of vertices that are still not added to topo and there is an edge from them to i.
@@ -61,8 +61,7 @@ void topoSort(){
             vis[i] = true;
         }
     }
-
-    while(!S.empty()){  
+    while(!S.empty()){
         int curr = *(S.begin());
         S.erase(S.begin());
         topo.pb(curr);
@@ -71,7 +70,7 @@ void topoSort(){
                 in_degree[adj[curr][j]]--;
                 if(in_degree[adj[curr][j]] == 0){
                     S.insert(adj[curr][j]);
-                    vis[adj[curr][j]] = 1;
+                    vis[adj[curr][j]] = 1;	//since a vertex could be pushed only by one vertex, because in_degree of a vertex could be made 0 only by a single vertex vis could be set to 1 even on pop.
                 }
             }
         }
@@ -81,16 +80,18 @@ void topoSort(){
 
 int main(){
     io;
-    cin >> n;
-    int k;
-    cin >> k;
-    for(int i = 1;i <= k; i++){
+    int m;
+    cin >> n >> m;
+    for(int i = 1;i <= m; i++){
         int a, b;
         cin >> a >> b;
         adj[a].pb(b);
     }
     topoSort();
-    for(int i = 0;i < topo.size(); i++)
-        cout << topo[i] << endl;
+    if(topo.size() != n)
+        cout << "Sandro fails." << endl;
+    else
+        for(int i = 0;i < topo.size(); i++)
+            cout << topo[i] << sp;
     return 0;
 }

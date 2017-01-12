@@ -21,12 +21,13 @@ template <typename T> T lcm(T a, T b){return a*(b/gcd(a,b));}
 template <typename T> T mod_exp(T b, T p, T m){T x = 1;while(p){if(p&1)x=(x*b)%m;b=(b*b)%m;p=p>>1;}return x;}
 template <typename T> T invFermat(T a, T p){return mod_exp(a, p-2, p);}
 template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=p>>1;}return x;}
- 
+
+const int MAXN = 1e5+5; 
 int t;
 int n;
-int tree[4000];
-int arr[1000];
-int lazy[4000];
+int tree[4*MAXN];
+int arr[MAXN];
+int lazy[4*MAXN];
 
 void build(int node, int start, int end){
   if(start > end)
@@ -36,6 +37,7 @@ void build(int node, int start, int end){
     return;
   }
   int mid = (start+end)>>1;
+  //Recurse on the left child
   int left = node<<1, right = left+1;
   build(left, start, mid);
   //Recurse on the right child.

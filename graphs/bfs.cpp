@@ -21,7 +21,7 @@ void bfs(int source){
 			if(!visited[adj[node][i]]){
 				depth[adj[node][i]] = curr_level+1;
 				q.push(adj[node][i]);
-				visited[adj[node][i]] =  1;
+				visited[adj[node][i]] =  1;		//since a vertex could be pushed by multiple adjacent vertices hence vis should be set to 1 only when pushing.
 			}
 		}
 	}

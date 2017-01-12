@@ -47,12 +47,26 @@ bool vis[MAXN], AP[MAXN];
 int n;
 int disc[MAXN];     //discovery currTime of vertices
 int low[MAXN];  //low[i] is the minimum of visited currTime of all vertices which are reachable from i.
-vector<ii> bridges;
 int currTime;
+stack<ii> S;
 
 void initialize(){
     currTime = 0;
     FOR(i,n){adj[i].clear();vis[i]=false;AP[i]=false;disc[i]=0;low[i]=INT_MAX;}
+}
+
+void print(int u, int v){
+    ii p = S.top();
+    while(1){
+        if(p.F == u && p.S == v)
+            break;
+        cout << p.F << sp << p.S << endl;
+        S.pop();
+        p = S.top();
+    }
+    p = S.top();
+    cout << p.F << sp << p.S << endl;
+    S.pop();
 }
 
 
@@ -66,23 +80,21 @@ void dfs(int u, int parent){
         if(!vis[v]){
             child = child+1;
             currTime++;
+            S.push({u, v});
             dfs(v, u);
             //check if subtree rooted at v has a connection to one of the ancestors of u.
             low[u] = min(low[u], low[v]);
-            if(low[v] > disc[u]){   //this means the edge connecting u-v is a bridge.
-                if(u < v)
-                    bridges.pb({u, v});
-                else
-                    bridges.pb({v, u});
-            }
             if(parent == -1 && child > 1){ //if u is root and its child is > 1 then it is an A.P.
-                AP[u] = true;
+                print(u, v);
+                cout << endl;
             }
-            if(parent != -1 && low[v] >= disc[u]){	//if u is not a root and the lowest reachable vertex from v has time greater than discovery time of u, then u is an A.P.
-                AP[u] = true;
+            if(parent != -1 && low[v] >= disc[u]){  //if u is not a root and the lowest reachable vertex from v has time greater than discovery time of u, then u is an A.P.
+                print(u, v);
+                cout << endl;
             }
-        }else{
-            low[u] = min(low[u], disc[v]);
+        }else if(disc[v] < low[u]){
+            low[u] = disc[v];
+            S.push({u, v});
         }
     }
 }
@@ -99,13 +111,15 @@ int main(){
         adj[a].pb(b);
         adj[b].pb(a);
     }
-    dfs(1, -1);	//start from any random vertex, make its parent -1.
-    int countAP = 0;
     for(int i = 0;i < n; i++){
-        if(AP[i]){
-            countAP++;
+        if(!vis[i]){
+            dfs(i, -1);
+            while(!S.empty()){
+                ii p = S.top();
+                cout << p.F << sp << p.S << endl;
+                S.pop();
+            }
         }
     }
-    cout << countAP << endl;
     return 0;
 }

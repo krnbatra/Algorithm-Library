@@ -43,11 +43,10 @@ void si(int &x){
 
 const int MAXN = 1e4+5;
 vector<int> adj[MAXN];
-bool vis[MAXN], AP[MAXN];
+bool vis[MAXN];
 int n;
 int disc[MAXN];     //discovery currTime of vertices
 int low[MAXN];  //low[i] is the minimum of visited currTime of all vertices which are reachable from i.
-vector<ii> bridges;
 int currTime;
 
 void initialize(){
@@ -56,7 +55,7 @@ void initialize(){
 }
 
 
-void dfs(int u, int parent){
+bool isBiconnected(int u, int parent){
     vis[u] = true;
     disc[u] = low[u] = currTime+1;  //since till now i have not explored the children of u all i know is the lowest numbered vertex which can be reached from u is u itself.
     int child = 0;
@@ -66,25 +65,22 @@ void dfs(int u, int parent){
         if(!vis[v]){
             child = child+1;
             currTime++;
-            dfs(v, u);
+            bool result = isBiconnected(v, u);
+            if(result == false)
+                return false;
             //check if subtree rooted at v has a connection to one of the ancestors of u.
             low[u] = min(low[u], low[v]);
-            if(low[v] > disc[u]){   //this means the edge connecting u-v is a bridge.
-                if(u < v)
-                    bridges.pb({u, v});
-                else
-                    bridges.pb({v, u});
-            }
             if(parent == -1 && child > 1){ //if u is root and its child is > 1 then it is an A.P.
-                AP[u] = true;
+                return false;
             }
             if(parent != -1 && low[v] >= disc[u]){	//if u is not a root and the lowest reachable vertex from v has time greater than discovery time of u, then u is an A.P.
-                AP[u] = true;
+                return false;
             }
         }else{
             low[u] = min(low[u], disc[v]);
         }
     }
+    return true;
 }
 
 int main(){
@@ -99,13 +95,7 @@ int main(){
         adj[a].pb(b);
         adj[b].pb(a);
     }
-    dfs(1, -1);	//start from any random vertex, make its parent -1.
-    int countAP = 0;
-    for(int i = 0;i < n; i++){
-        if(AP[i]){
-            countAP++;
-        }
-    }
-    cout << countAP << endl;
+    bool res = isBiconnected(1, -1);	//start from any random vertex, make its parent -1.
+    cout << res << endl;
     return 0;
 }
