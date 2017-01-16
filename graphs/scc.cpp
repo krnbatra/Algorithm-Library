@@ -43,7 +43,8 @@ void si(int &x){
 
 const int MAXN = 1e3+5;
 vector<int> adj[MAXN], adjReverse[MAXN];
-int components[MAXN], in_degree[MAXN];
+int components[MAXN];   //components[i] indicates to which component i belongs to.
+int in_degree[MAXN];
 int n;
 bool vis[MAXN];
 stack<int> stk;
@@ -60,6 +61,7 @@ void dfs(int src){
             dfs(adj[src][i]);
         }
     }
+    //ordering the vertices according to the finish times, the vertex finishing last will be at the top of stack.
     stk.push(src);
 }
 
@@ -88,17 +90,13 @@ int main(){
     io;
     cin >> n;
     initialize();
-    
-    for(int v = 1;v <= n; v++){
-        int m;
-        cin >> m;
-        //u -> v means u can defeat v.
-        for(int j = 0;j < m; j++){
-            int u;
-            cin >> u;
-            adj[u].pb(v);
-            adjReverse[v].pb(u);
-        }
+    int m;
+    cin >> m;
+    for(int j = 0;j < m; j++){
+        int a, b;
+        cin >> a >> b;
+        adj[a].pb(b);
+        adjReverse[b].pb(a);
     }
     for(int i = 1;i <= n; i++){
         if(!vis[i]){
@@ -117,11 +115,11 @@ int main(){
         }
     }
     int countZeroIndegree = 0;
-    int num = -1;
+    int componentWithIndegreeZero = -1;
     FORE(i,1,numberOfComponents){
         if(in_degree[i] == 0){
             countZeroIndegree++;
-            num = i;
+            componentWithIndegreeZero = i;
         }
     }
     if(countZeroIndegree > 1 || numberOfComponents == 0 || countZeroIndegree == 0){
@@ -129,7 +127,7 @@ int main(){
     }else{
         int ans = 0;
         FORE(i,1,n){
-            if(components[i] == num){
+            if(components[i] == componentWithIndegreeZero){
                 ans++;
             }
         }
