@@ -25,7 +25,6 @@ typedef vector<int> vi;
 #define read(arr, n)    for(int i = 0;i < n; i++)cin>>arr[i];
 #define sp ' '
 
-
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
 template <typename T> T lcm(T a, T b){return a*(b/gcd(a,b));}
 template <typename T> T mod_exp(T b, T p, T m){T x = 1;while(p){if(p&1)x=(x*b)%m;b=(b*b)%m;p=p>>1;}return x;}
@@ -42,44 +41,27 @@ void si(int &x){
     if(neg) x=-x;
 }
 
-vector<pair<ii, int> > edge;	//{{to, from}, weight};
-int dis[1005];
-int n, m;
+int dist[1000][1000];
+int weight[1000][1000];
+int n;
 
-void initialize(){
-	edge.clear();
-	FOR(i,n){dis[i]=1e9;}
-}
-
-int bellmanFord(int start){
-	dis[start] = 0;
-    for(int i = 1; i <= n; i++){
-        for(int j = 0;j < m; j++){
-        	int from = edge[j].F.F;
-        	int to = edge[j].F.S;
-        	int w = edge[j].S;
-        	if(dis[to] > dis[from]+w){
-        		if(i == n){
-        			return -1;
-        		}
-        		dis[to] = dis[from]+w;
-        	}
-        }
-    }
+void floyd_warshall(){
+	FOR(i,n){
+		FOR(j,n){
+			dist[i][j] = i == j ? 0 : weight[i][j];
+		}
+	}
+	FOR(k,n){	//shortest path to reach from i to j if we're allowed to travel through the vertices 0,1...k
+		FOR(i,n){
+			FOR(j,n){
+				dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+			}
+		}
+	}
 }
 
 int main(){
     io;
-    cin >> n >> m;
-    initialize();
-	FOR(i,m){
-    	int a, b, w;
-    	cin >> a >> b >> w;
-    	edge.pb({{a,b}, w});
-    }
-    int res = bellmanFord(1);
-    if(res == -1)	cout << "Negative cycle found." << endl;
-    else
-    	FORE(i,2,n)	cout << dis[i] << sp;
+	    
     return 0;
 }
