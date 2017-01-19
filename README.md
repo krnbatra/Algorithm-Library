@@ -1,1 +1,3 @@
-# competitive
+# Algorithm Library
+
+Few algorithms implementations.
