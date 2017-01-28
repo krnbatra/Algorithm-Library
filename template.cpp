@@ -3,14 +3,12 @@
 using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
-typedef vector<int> vi;
  
 #define MOD (ll)1000000007
 #define pb   push_back
 #define EPS 1e-9
 #define FOR(i,n)  for(int i = 0;i < n; i++)
 #define FORE(i,a,b) for(int i = a;i <= b; i++)
-#define all(c)  c.begin(), c.end()
 #define tr(container, it)   for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
 #define io ios_base::sync_with_stdio(false);cin.tie(NULL);
 #define endl '\n'

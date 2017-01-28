@@ -43,32 +43,46 @@ void si(int &x){
 
 const int MAXN = (int)1e3+5;
 int size;
-int BIT[MAXN], arr[MAXN];
+int BIT1[MAXN], BIT2[MAXN], arr[MAXN];
 
-// Update position i by val
-void update(int idx, int val){
-    while(idx <= size){
-        table[idx] += val;
+void update(int idx, int val, int tree){
+    while(idx <= MAXN){
+        if(tree == 1)
+            BIT1[idx] += val;
+        if(tree == 2)
+            BIT2[idx] += val;
         // move up in the table
         idx += idx&(-idx);
     }
 }
 
-// Compute the prefix sum value[1, i]
-int sum(int idx){
+void updateRange(int i, int j, int val){
+    update(i, val, 1);
+    update(j+1, -val, 1);
+    update(i, val*(i-1), 2);
+    update(j+1, -val*j, 2);
+}
+
+int queryTree(int idx, int tree){
     int sum = 0;
     while(idx > 0){
-        sum += table[idx];
+        if(tree == 1)
+            sum += BIT1[idx];
+        if(tree == 2)
+            sum += BIT2[idx];
         idx -= idx&(-idx);
     }
     return sum;
 }
 
-// Compute the sum value[i, j]
-int rangeSum(int i, int j){
-    return sum(j) - sum(i-1);
+// return sum[1....idx]
+int query(int idx){
+    return idx*queryTree(idx, 1) - queryTree(idx, 2);
 }
 
+int queryRange(int i, int j){
+    return query(j) - query(i-1);
+}
 
 int main(){
     io;
