@@ -25,9 +25,9 @@ template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=
 const int MAXN = 1e4+5;
 vector<int> adj[MAXN];
 bool vis[MAXN], AP[MAXN];
-int n, currTime;
-int disc[MAXN];     //discovery currTime of vertices
-int low[MAXN];  //low[i] is the minimum of visited currTime of all vertices which are reachable from i.
+int n, m, currTime;
+int disc[MAXN];     // discovery currTime of vertices
+int low[MAXN];  // low[i] is the minimum of visited currTime of all vertices which are reachable from i.
 vector<ii> bridges;
 
 void init(){
@@ -40,7 +40,7 @@ void dfs(int u, int parent){
     vis[u] = true;
     disc[u] = low[u] = currTime+1;  //since till now i have not explored the children of u all i know is the lowest numbered vertex which can be reached from u is u itself.
     int child = 0;
-    for(int i = 0;i < adj[u].size(); i++){
+    FOR(i, adj[u].size()){
         int v = adj[u][i];
         if(v == parent)     continue;
         if(!vis[v]){
@@ -69,11 +69,9 @@ void dfs(int u, int parent){
 
 int main(){
     io;
-    cin >> n;
-    int m;
-    cin >> m;
+    cin >> n >> m;
     init();
-    for(int i = 0;i < m; i++){
+    FOR(i, m){
         int a, b;
         cin >> a >> b;
         adj[a].pb(b);

@@ -23,7 +23,6 @@ template <typename T> T invFermat(T a, T p){return mod_exp(a, p-2, p);}
 template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=p>>1;}return x;}
 
 const int MAXN = 1e5+5;
-// int INF = 1e6;
 vector<ii> adj[MAXN];   //{dist, adjacent_vertex}
 ll dist[MAXN];
 bool vis[MAXN];
@@ -34,9 +33,9 @@ void init(){
 }
 
 void dijkstra(){
-    dist[st] = 0;    //1 is the source vertex.
-    multiset<ii> S; //acts as min priority queue.
-    S.insert({0,st});    //{dist, vertex}.
+    dist[st] = 0;
+    multiset<ii> S; // acts as min priority queue.
+    S.insert({0,st});    // {dist, vertex}.
     while(!S.empty()){
         ii p = *(S.begin());
         S.erase(S.begin());

@@ -24,10 +24,12 @@ template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=
 
 const int MAXN = 1e3+5;
 vector<int> adj[MAXN], adjReverse[MAXN];
-int components[MAXN];   //components[i] indicates to which component i belongs to.
-int n, numberOfComponents,in_degree[MAXN];
+int components[MAXN];   // components[i] indicates to which component vertex i belong to.
+int n, m, numberOfComponents,in_degree[MAXN];
 bool vis[MAXN];
 stack<int> stk;
+
+// numbering of vertices from 1 to n.
 
 void init(){
     FORE(i,1,n){vis[i] = false;adj[i].clear();adjReverse[i].clear();in_degree[i]=0;components[i]=0;numberOfComponents=0;}
@@ -68,27 +70,26 @@ void scc(){
 
 int main(){
     io;
-    cin >> n;
+    cin >> n >> m;
     init();
-    int m;
-    cin >> m;
-    for(int j = 0;j < m; j++){
+    FOR(j, m){
         int a, b;
         cin >> a >> b;
         adj[a].pb(b);
         adjReverse[b].pb(a);
     }
-    for(int i = 1;i <= n; i++){
+    FORE(i,1,n){
         if(!vis[i]){
             dfs(i);
         }
     }
     scc();
     //DAG of SCC is formed calculate indegree of components
-    for(int i = 1;i <= n; i++){
-        for(int j = 0;j < adj[i].size(); j++){
+    FORE(i,1,n){
+        FOR(j, adj[i].size()){
             int adjacentVertex = adj[i][j];
             if(components[i] != components[adjacentVertex]){
+                // in degree of the strongly connected component.
                 in_degree[components[adjacentVertex]]++;
             }
         }

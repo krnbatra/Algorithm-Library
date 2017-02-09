@@ -25,15 +25,14 @@ template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=
 const int MAXN = 1e4+5;
 vector<int> adj[MAXN];
 bool vis[MAXN], AP[MAXN];
-int n;
+int n, m, currTime;
 int disc[MAXN];     //discovery currTime of vertices
 int low[MAXN];  //low[i] is the minimum of visited currTime of all vertices which are reachable from i.
-int currTime;
 stack<ii> S;
 
 void init(){
     currTime = 0;
-    FOR(i,n){adj[i].clear();vis[i]=false;AP[i]=false;disc[i]=0;low[i]=INT_MAX;}
+    FORE(i,1,n){adj[i].clear();vis[i]=false;AP[i]=false;disc[i]=0;low[i]=INT_MAX;}
 }
 
 void print(int u, int v){
@@ -63,9 +62,9 @@ void dfs(int u, int parent){
             currTime++;
             S.push({u, v});
             dfs(v, u);
-            //check if subtree rooted at v has a connection to one of the ancestors of u.
+            // check if subtree rooted at v has a connection to one of the ancestors of u.
             low[u] = min(low[u], low[v]);
-            if(parent == -1 && child > 1){ //if u is root and its child is > 1 then it is an A.P.
+            if(parent == -1 && child > 1){ // if u is root and its child is > 1 then it is an A.P.
                 print(u, v);
                 cout << endl;
             }
@@ -82,17 +81,15 @@ void dfs(int u, int parent){
 
 int main(){
     io;
-    cin >> n;
-    int m;
-    cin >> m;
+    cin >> n >> m;
     init();
-    for(int i = 0;i < m; i++){
+    FOR(i, m){
         int a, b;
         cin >> a >> b;
         adj[a].pb(b);
         adj[b].pb(a);
     }
-    for(int i = 0;i < n; i++){
+    FORE(i,1,n){
         if(!vis[i]){
             dfs(i, -1);
             while(!S.empty()){

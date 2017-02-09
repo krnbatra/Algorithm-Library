@@ -23,17 +23,19 @@ template <typename T> T invFermat(T a, T p){return mod_exp(a, p-2, p);}
 template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=p>>1;}return x;}
 
 vector<pair<ii, int> > edge;	//{{to, from}, weight};
-int dis[1005];
-int n, m;
+int n, m, dis[1005];
 
-void initialize(){
+// numbering of vertices from 1 to n.
+
+void init(){
 	edge.clear();
-	FOR(i,n){dis[i]=1e9;}
+	FORE(i,1,n){dis[i]=1e9;}
 }
 
 int bellmanFord(int start){
 	dis[start] = 0;
     for(int i = 1; i <= n; i++){
+        // traverse all the edges n times and even if the nth time the distance reduces it means there is a negative edge.
         for(int j = 0;j < m; j++){
         	int from = edge[j].F.F;
         	int to = edge[j].F.S;
@@ -51,7 +53,7 @@ int bellmanFord(int start){
 int main(){
     io;
     cin >> n >> m;
-    initialize();
+    init();
 	FOR(i,m){
     	int a, b, w;
     	cin >> a >> b >> w;
@@ -60,6 +62,6 @@ int main(){
     int res = bellmanFord(1);
     if(res == -1)	cout << "Negative cycle found." << endl;
     else
-    	FORE(i,2,n)	cout << dis[i] << sp;
+    	FORE(i,1,n)	cout << dis[i] << sp;
     return 0;
 }
