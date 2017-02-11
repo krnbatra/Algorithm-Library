@@ -22,7 +22,6 @@ void sieve(){
 	}
 }
 /* Time Complexity - O(logN + nloglogN) */
-/* factors will contain 	*/
 vector<int> factors;
 void factorise(int n){
 	sieve();
@@ -31,8 +30,6 @@ void factorise(int n){
 		n/=minPrime[n];
 	}
 }
-
-
 
 int main(){
 	
