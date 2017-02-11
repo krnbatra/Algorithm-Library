@@ -28,7 +28,7 @@ bool vis[MAXN], AP[MAXN];
 int n, m, currTime;
 int disc[MAXN];     //discovery currTime of vertices
 int low[MAXN];  //low[i] is the minimum of visited currTime of all vertices which are reachable from i.
-stack<ii> S;
+stack<ii> stk;
 
 void init(){
     currTime = 0;
@@ -36,15 +36,15 @@ void init(){
 }
 
 void print(int u, int v){
-    ii p = S.top();
+    ii p = stk.top();
     while(1){
         if(p.F == u && p.S == v)
             break;
         cout << p.F << sp << p.S << endl;
-        S.pop();
-        p = S.top();
+        stk.pop();
+        p = stk.top();
     }
-    p = S.top();
+    p = stk.top();
     cout << p.F << sp << p.S << endl;
     S.pop();
 }
@@ -60,7 +60,7 @@ void dfs(int u, int parent){
         if(!vis[v]){
             child = child+1;
             currTime++;
-            S.push({u, v});
+            stk.push({u, v});
             dfs(v, u);
             // check if subtree rooted at v has a connection to one of the ancestors of u.
             low[u] = min(low[u], low[v]);
@@ -73,8 +73,9 @@ void dfs(int u, int parent){
                 cout << endl;
             }
         }else if(disc[v] < low[u]){
+            // back edge.
             low[u] = disc[v];
-            S.push({u, v});
+            stk.push({u, v});
         }
     }
 }
@@ -92,10 +93,10 @@ int main(){
     FORE(i,1,n){
         if(!vis[i]){
             dfs(i, -1);
-            while(!S.empty()){
-                ii p = S.top();
+            while(!stk.empty()){
+                ii p = stk.top();
                 cout << p.F << sp << p.S << endl;
-                S.pop();
+                stk.pop();
             }
         }
     }

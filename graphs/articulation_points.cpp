@@ -62,6 +62,7 @@ void dfs(int u, int parent){
                 AP[u] = true;
             }
         }else{
+            // back edge.
             low[u] = min(low[u], disc[v]);
         }
     }
