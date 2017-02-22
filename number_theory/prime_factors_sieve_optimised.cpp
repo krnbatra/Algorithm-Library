@@ -32,6 +32,8 @@ void factorise(int n){
 }
 
 int main(){
-	
+	factorise(12);
+	for(auto i : factors)
+		cout << i << endl;
 	return 0;
 }

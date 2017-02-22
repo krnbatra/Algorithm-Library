@@ -14,7 +14,8 @@ typedef pair<int, int> ii;
 #define endl '\n'
 #define F first
 #define S second
-#define M_PI   3.14159265358979323846
+#define sp ' '
+# define M_PI   3.14159265358979323846
 
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
 template <typename T> T lcm(T a, T b){return a*(b/gcd(a,b));}
@@ -22,10 +23,33 @@ template <typename T> T mod_exp(T b, T p, T m){T x = 1;while(p){if(p&1)x=(x*b)%m
 template <typename T> T invFermat(T a, T p){return mod_exp(a, p-2, p);}
 template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=p>>1;}return x;}
 
-const int MAXN = 1e5+5;
+const int MAXN = 15;
+int adj[MAXN][MAXN];
+int n, m;
+
+// Time Complexity = O(n*n!)
+
+bool checkHamilPath(){
+	vector<int> v;
+	FORE(i,1,n)	v.pb(i);
+	bool valid = true;
+	do{
+		valid = true;
+		for(int i = 0; i < n-1; i++){
+			if(!adj[v[i]][v[i+1]]){
+				valid = false;
+				break;
+			}
+		}
+		if(valid){
+			return true;
+		}
+	}while(next_permutation(v.begin(), v.end()));
+	return false;
+}
 
 int main(){
     io;
-
+    
     return 0;
 }
