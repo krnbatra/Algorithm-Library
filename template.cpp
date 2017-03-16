@@ -26,6 +26,7 @@ const int MAXN = 1e5+5;
 
 int main(){
     io;
-
+   	// string s;
+   	// getline(cin, s);		scanning a string with spaces
     return 0;
 }

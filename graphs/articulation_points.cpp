@@ -32,7 +32,7 @@ vector<ii> bridges;
 
 void init(){
     currTime = 0;
-    FOR(i,n){adj[i].clear();vis[i]=false;AP[i]=false;disc[i]=0;low[i]=INT_MAX;}
+    FORE(i, 1, n){adj[i].clear();vis[i]=false;AP[i]=false;disc[i]=0;low[i]=INT_MAX;}
 }
 
 
@@ -40,8 +40,7 @@ void dfs(int u, int parent){
     vis[u] = true;
     disc[u] = low[u] = currTime+1;  //since till now i have not explored the children of u all i know is the lowest numbered vertex which can be reached from u is u itself.
     int child = 0;
-    FOR(i, adj[u].size()){
-        int v = adj[u][i];
+    for(auto v : adj[u]){
         if(v == parent)     continue;
         if(!vis[v]){
             child = child+1;

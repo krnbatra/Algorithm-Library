@@ -29,9 +29,10 @@ vector<int> adj[MAXN], topo;
 
 void topoSort(){
     // numbering of vertices from 1 to n.
-    FORE(i,1,n){
-        for(int j = 0;j < adj[i].size(); j++){
-            in_degree[adj[i][j]]++;
+    for(int u = 1;u <= n; u++){
+        // u --> v
+        for(auto v : adj[u]){
+            indegree[v]++;
         }
     }
     set<int> S;
@@ -45,12 +46,12 @@ void topoSort(){
         int curr = *(S.begin());
         S.erase(S.begin());
         topo.pb(curr);
-        FOR(j, adj[curr].size()){
-            if(!vis[adj[curr][j]]){
-                in_degree[adj[curr][j]]--;
-                if(in_degree[adj[curr][j]] == 0){
-                    S.insert(adj[curr][j]);
-                    vis[adj[curr][j]] = 1;	//since a vertex could be pushed only by one vertex, because in_degree of a vertex could be made 0 only by a single vertex vis could be set to 1 even on pop.
+        for(auto v : adj[curr]){
+            if(!vis[v]){
+                indegree[v]--;
+                if(indegree[v] == 0){
+                    S.insert(v);    
+                    vis[v] = 1; //since a vertex could be pushed only by one vertex, because in_degree of a vertex could be made 0 only by a single vertex vis could be set to 1 even on pop.
                 }
             }
         }
