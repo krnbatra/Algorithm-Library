@@ -39,16 +39,15 @@ void dijkstra(){
     while(!S.empty()){
         ii p = *(S.begin());
         S.erase(S.begin());
-        int currVertex = p.S;
-        int weight = p.F;
-        if(vis[currVertex])     //according to the algorithm the distance to the visited vertices is minimal.
+        int u = p.S;
+        if(vis[u])     //according to the algorithm the distance to the visited vertices is minimal.
             continue;
-        vis[currVertex] = true;
-        for(auto adjacent_pair : adj[currVertex]){
+        vis[u] = true;
+        for(auto adjacent_pair : adj[u]){
             int adjacent_vertex = adjacent_pair.S;
             int weight = adjacent_pair.F;
-            if(dist[currVertex] + weight < dist[adjacent_vertex]){
-                dist[adjacent_vertex] = dist[currVertex] + weight;
+            if(dist[u] + weight < dist[adjacent_vertex]){
+                dist[adjacent_vertex] = dist[u] + weight;
                 S.insert({dist[adjacent_vertex], adjacent_vertex}); //a vertex can be pushed multiple times do not mark vis as true while pushing instead mark it while popping out.
             }
         }
