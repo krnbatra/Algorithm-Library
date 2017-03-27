@@ -29,13 +29,13 @@ bool vis[MAXN];
 int n, m, st, finish;
 
 void init(){
-    FORE(i,1,n){adj[i].clear();dist[i]=1e6;vis[i]=false;}
+    FORE(i,1,n){adj[i].clear();dist[i]=(int)1e6;vis[i]=false;}
 }
 
 void dijkstra(){
     dist[st] = 0;
-    multiset<ii> S; // acts as min priority queue.
-    S.insert({0,st});    // {dist, vertex}.
+    multiset<ii> S;
+    S.insert({0,st});
     while(!S.empty()){
         ii p = *(S.begin());
         S.erase(S.begin());
@@ -43,9 +43,10 @@ void dijkstra(){
         if(vis[u])     //according to the algorithm the distance to the visited vertices is minimal.
             continue;
         vis[u] = true;
+        int adjacent_vertex, weight;
         for(auto adjacent_pair : adj[u]){
-            int adjacent_vertex = adjacent_pair.S;
-            int weight = adjacent_pair.F;
+            adjacent_vertex = adjacent_pair.S;
+            weight = adjacent_pair.F;
             if(dist[u] + weight < dist[adjacent_vertex]){
                 dist[adjacent_vertex] = dist[u] + weight;
                 S.insert({dist[adjacent_vertex], adjacent_vertex}); //a vertex can be pushed multiple times do not mark vis as true while pushing instead mark it while popping out.
@@ -56,22 +57,18 @@ void dijkstra(){
 
 int main(){
     io;
-    int t;
-    cin >> t;
-    while(t--){
-        cin >> n >> m >> st >> finish;
-        init();
-        FOR(i,m){
-            int a, b, w;
-            cin >> a >> b >> w;
-            adj[a].pb({w, b});
-            adj[b].pb({w, a});
-        }
-        dijkstra();
-        if(dist[finish] == 1e6)
-            cout << "NONE" << endl;
-        else
-            cout << dist[finish] << endl;
+    cin >> n >> m >> st >> finish;
+    init();
+    FOR(i,m){
+        int a, b, w;
+        cin >> a >> b >> w;
+        adj[a].pb({w, b});
+        adj[b].pb({w, a});
     }
+    dijkstra();
+    if(dist[finish] == (int)1e6)
+        cout << "NONE" << endl;
+    else
+        cout << dist[finish] << endl;
     return 0;
 }

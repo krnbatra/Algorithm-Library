@@ -71,23 +71,5 @@ int main(){
     	ans = min(ans, dp[(1<<n)-1][i]);
     }
     cout << ans << endl;
-    // if hamiltonian path exists then recover path
-    int count = n;
-    int ver = -1;
-    for(int i = 0;i < n; i++){
-    	if(dp[(1<<n)-1][i] == ans)
-    		ver = i;
-    }
-    cout << ver << sp;
-    while(count > 0){
-    	for(int i = 0;i < n; i++){
-    		if(dp[(1<<count)-1][ver] == dp[((1<<count)-1)^(1<<ver)][i] + adj[i][ver]){
-    			ver = i;
-    			cout << i << sp;
-    			break;
-    		}
-    	}
-    	count--;
-    }
     return 0;
 }
