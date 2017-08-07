@@ -1,20 +1,12 @@
-/*My First Template :D*/
+/*Let's get high :D*/
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-typedef pair<int, int> ii;
  
-#define MOD (ll)1000000007
-#define pb   push_back
-#define EPS 1e-9
-#define FOR(i,n)  for(int i = 0;i < n; i++)
-#define FORE(i,a,b) for(int i = a;i <= b; i++)
-#define tr(container, it)   for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
-#define io ios_base::sync_with_stdio(false);cin.tie(NULL);
-#define endl '\n'
-#define F first
-#define S second
-#define sp ' '
+#define MOD                 1000000007LL
+#define EPS                 1e-9
+#define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define M_PI                3.14159265358979323846
 
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
 template <typename T> T lcm(T a, T b){return a*(b/gcd(a,b));}
@@ -24,12 +16,12 @@ template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=
 
 const int MAXN = 1e5+5;
 int parent[MAXN], n, m;
-pair<ll, ii> table[MAXN];	// table stores <ll, pair of ints>, weight and in between what n the edge is. 
+pair<ll, pair<int, int> > table[MAXN];	// table stores <ll, pair of ints>, weight and in between what n the edge is. 
 
 // numbering of vertices from 1 to n.
 
 void init(){
-	FORE(i,1,n){
+	for(int i = 1;i <= n; i++){
 		parent[i] = i;
 	}
 }
@@ -50,10 +42,10 @@ void union1(int x, int y){
 
 ll kruskal(){
 	ll minCost = 0;
-	FOR(i, m){
-		int x = table[i].S.F;
-		int y = table[i].S.S;
-		ll cost = table[i].F;
+	for(int i = 0;i < m; i++){
+		int x = table[i].second.first;
+		int y = table[i].second.second;
+		ll cost = table[i].first;
 		//check if the selected edge makes a cycle or not.
 		if(root(x) != root(y)){
 			minCost += cost;
@@ -67,7 +59,7 @@ int main(){
 	io;
 	cin >> n >> m;
 	init();
-	FOR(i, m){
+	for(int i = 0;i < m; i++){
 		int x, y;
 		ll weight;
 		cin >> x >> y >> weight;
