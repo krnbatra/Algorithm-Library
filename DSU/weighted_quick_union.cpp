@@ -4,25 +4,15 @@
 						union(a, b)	O(logn)
 
 */
-/*My First Template :D*/
+/*Let's get high :D*/
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-typedef pair<int, int> ii;
  
-#define MOD (ll)1000000007
-#define pb   push_back
-#define EPS 1e-9
-#define FOR(i,n)  for(int i = 0;i < n; i++)
-#define FORE(i,a,b) for(int i = a;i <= b; i++)
-#define tr(container, it)   for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
-#define io ios_base::sync_with_stdio(false);cin.tie(NULL);
-#define endl '\n'
-#define F first
-#define S second
-#define sp ' '
-
-const int MAXN = 1e5+5;
+#define MOD                 1000000007LL
+#define EPS                 1e-9
+#define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define M_PI                3.14159265358979323846
 
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
 template <typename T> T lcm(T a, T b){return a*(b/gcd(a,b));}
@@ -41,15 +31,17 @@ void init(){
 		size[i] = 1;
 	}
 }
+
 int root(int i){
-	while(i!=parent[i]){
+	while(i != parent[i])
 		i = parent[i];
-	}
 	return i;
 }
+
 bool find(int a, int b){
 	return root(a) == root(b);
 }
+
 void union1(int a, int b){
 	int root_a = root(a);
 	int root_b = root(b);
@@ -59,20 +51,15 @@ void union1(int a, int b){
 	
 	if(size[root_a] < size[root_b]){
 		parent[root_a] = root_b;
-		size[root_b]+=size[root_a];
+		size[root_b] += size[root_a];
 	}else{
 		parent[root_b] = root_a;
-		size[root_a]+=size[root_b];
+		size[root_a] += size[root_b];
 	}
 }
 
 int main(){
 	io;
-    n = 5;
-	init();
-	union1(1, 2);
-	union1(2, 4);
-	cout<<find(2, 5)<<endl;
-	cout<<find(1, 4)<<endl;
+
 	return 0;
 }
