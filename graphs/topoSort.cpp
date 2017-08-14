@@ -1,20 +1,12 @@
-/*My First Template :D*/
+/*Let's get high :D*/
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-typedef pair<int, int> ii;
  
-#define MOD (ll)1000000007
-#define pb   push_back
-#define EPS 1e-9
-#define FOR(i,n)  for(int i = 0;i < n; i++)
-#define FORE(i,a,b) for(int i = a;i <= b; i++)
-#define tr(container, it)   for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
-#define io ios_base::sync_with_stdio(false);cin.tie(NULL);
-#define endl '\n'
-#define F first
-#define S second
-#define sp ' '
+#define MOD                 1000000007LL
+#define EPS                 1e-9
+#define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define M_PI                3.14159265358979323846
 
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
 template <typename T> T lcm(T a, T b){return a*(b/gcd(a,b));}
@@ -22,21 +14,17 @@ template <typename T> T mod_exp(T b, T p, T m){T x = 1;while(p){if(p&1)x=(x*b)%m
 template <typename T> T invFermat(T a, T p){return mod_exp(a, p-2, p);}
 template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=p>>1;}return x;}
 
-const int MAXN = 1e4+5;
+const int MAXN = 1e5+5;
 bool vis[MAXN];
-int n, in_degree[MAXN];    // in_degree[i] denotes the number of vertices that are still not added to topo and there is an edge from them to i.
+int n, in_degree[MAXN];
 vector<int> adj[MAXN], topo;
 
 void topoSort(){
-    // numbering of vertices from 1 to n.
-    for(int u = 1;u <= n; u++){
-        // u --> v
-        for(auto v : adj[u]){
+    for(int u = 1; u <= n; u++)
+        for(auto v : adj[u])
             indegree[v]++;
-        }
-    }
     set<int> S;
-    FORE(i,1,n){
+    for(int i = 1;i <= n; i++){
         if(in_degree[i] == 0){
             S.insert(i);
             vis[i] = true;
@@ -45,13 +33,13 @@ void topoSort(){
     while(!S.empty()){
         int curr = *(S.begin());
         S.erase(S.begin());
-        topo.pb(curr);
+        topo.push_back(curr);
         for(auto v : adj[curr]){
             if(!vis[v]){
                 indegree[v]--;
                 if(indegree[v] == 0){
                     S.insert(v);    
-                    vis[v] = 1; //since a vertex could be pushed only by one vertex, because in_degree of a vertex could be made 0 only by a single vertex vis could be set to 1 even on pop.
+                    vis[v] = 1;
                 }
             }
         }
@@ -63,17 +51,17 @@ int main(){
     io;
     int m;
     cin >> n >> m;
-    FOR(i,m){
+    for(int i = 0;i < m; i++){
         int a, b;
         cin >> a >> b;
-        adj[a].pb(b);
+        adj[a].push_back(b);
     }
     topoSort();
     if(topo.size() != n){
         // topoSort cannot be done. The input graph is not a DAG.
     }
     else{
-        FOR(i, topo.size()){
+        for(int i = 0;i < topo.size(); i++){
             cout << topo[i] << sp;
         }
     }
