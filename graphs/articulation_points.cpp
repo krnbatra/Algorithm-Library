@@ -1,20 +1,12 @@
-/*My First Template :D*/
+/*Let's get high :D*/
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-typedef pair<int, int> ii;
  
-#define MOD (ll)1000000007
-#define pb   push_back
-#define EPS 1e-9
-#define FOR(i,n)  for(int i = 0;i < n; i++)
-#define FORE(i,a,b) for(int i = a;i <= b; i++)
-#define tr(container, it)   for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
-#define io ios_base::sync_with_stdio(false);cin.tie(NULL);
-#define endl '\n'
-#define F first
-#define S second
-#define sp ' '
+#define MOD                 1000000007LL
+#define EPS                 1e-9
+#define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define M_PI                3.14159265358979323846
 
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
 template <typename T> T lcm(T a, T b){return a*(b/gcd(a,b));}
@@ -26,15 +18,14 @@ const int MAXN = 1e4+5;
 vector<int> adj[MAXN];
 bool vis[MAXN], AP[MAXN];
 int n, m, currTime;
-int disc[MAXN];     // discovery currTime of vertices
+int disc[MAXN];
 int low[MAXN];  // low[i] is the minimum of visited currTime of all vertices which are reachable from i.
-vector<ii> bridges;
+vector<pair<int, int> > bridges;
 
 void init(){
     currTime = 0;
-    FORE(i, 1, n){adj[i].clear();vis[i]=false;AP[i]=false;disc[i]=0;low[i]=INT_MAX;}
+    for(int i = 1;i <= n; i++){adj[i].clear();vis[i]=false;AP[i]=false;disc[i]=0;low[i]=INT_MAX;}
 }
-
 
 void dfs(int u, int parent){
     vis[u] = true;
@@ -48,18 +39,17 @@ void dfs(int u, int parent){
             dfs(v, u);
             //check if subtree rooted at v has a connection to one of the ancestors of u.
             low[u] = min(low[u], low[v]);
-            if(low[v] > disc[u]){   //this means the edge connecting u-v is a bridge.
+            if(low[v] > disc[u]){
                 if(u < v)
-                    bridges.pb({u, v});
+                    bridges.push_back({u, v});
                 else
-                    bridges.pb({v, u});
+                    bridges.push_back({v, u});
             }
-            if(parent == -1 && child > 1){ //if u is root and its child is > 1 then it is an A.P.
+            if(parent == -1 && child > 1)
                 AP[u] = true;
-            }
-            if(parent != -1 && low[v] >= disc[u]){	//if u is not a root and the lowest reachable vertex from v has time greater than discovery time of u, then u is an A.P.
+            
+            if(parent != -1 && low[v] >= disc[u])
                 AP[u] = true;
-            }
         }else{
             // back edge.
             low[u] = min(low[u], disc[v]);
@@ -71,19 +61,13 @@ int main(){
     io;
     cin >> n >> m;
     init();
-    FOR(i, m){
+    for(int i = 0;i < m; i++){
         int a, b;
         cin >> a >> b;
-        adj[a].pb(b);
-        adj[b].pb(a);
+        adj[a].push_back(b);
+        adj[b].push_back(a);
     }
     dfs(1, -1);	//start from any random vertex, make its parent -1.
-    int countAP = 0;
-    for(int i = 0;i < n; i++){
-        if(AP[i]){
-            countAP++;
-        }
-    }
-    cout << countAP << endl;
+    
     return 0;
 }

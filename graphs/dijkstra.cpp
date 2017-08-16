@@ -34,19 +34,19 @@ void dijkstra(){
     multiset<pair<int, int> > S;
     S.insert({0,st});
     while(!S.empty()){
-        pair<int, int> p = *(S.begin());
+        auto p = *(S.begin());
         S.erase(S.begin());
         int u = p.second;
         if(vis[u])     //according to the algorithm the distance to the visited vertices is minimal.
             continue;
         vis[u] = true;
-        int adjacent_vertex, weight;
-        for(auto adjacent_pair : adj[u]){
-            adjacent_vertex = adjacent_pair.second;
-            weight = adjacent_pair.first;
-            if(dist[u] + weight < dist[adjacent_vertex]){
-                dist[adjacent_vertex] = dist[u] + weight;
-                S.insert({dist[adjacent_vertex], adjacent_vertex}); //a vertex can be pushed multiple times do not mark vis as true while pushing instead mark it while popping out.
+        int v, wuv;
+        for(auto p : adj[u]){
+            v = p.second;
+            wuv = p.first;
+            if(dist[u] + wuv < dist[v]){
+                dist[v] = dist[u] + wuv;
+                S.insert({dist[v], v}); //a vertex can be pushed multiple times do not mark vis as true while pushing instead mark it while popping out.
             }
         }
     }
