@@ -1,20 +1,11 @@
-/*My First Template :D*/
+/*Let's get high :D*/
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-typedef pair<int, int> ii;
  
 #define MOD                 1000000007LL
-#define pb                  push_back
 #define EPS                 1e-9
-#define FOR(i,n)            for(int i = 0;i < n; i++)
-#define FORE(i,a,b)         for(int i = a;i <= b; i++)
-#define tr(container, it)   for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
 #define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
-#define endl                '\n'
-#define F                   first
-#define S                   second
-#define sp                  ' '
 #define M_PI                3.14159265358979323846
 
 template <typename T> T gcd(T a, T b){return (b==0)?a:gcd(b,a%b);}
@@ -25,47 +16,45 @@ template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=
 
 const int MAXN = 1e3+5;
 vector<int> adj[MAXN];
-int residual[MAXN][MAXN];
-int from[MAXN];
-int n, src, dest;
+int residual[MAXN][MAXN], from[MAXN], n;
 bool vis[MAXN];
 
-int find_path(){
-    queue<int> Q;
-    Q.push(src);
-    vis[src] = 1;
+int find_path(int src, int dest){
     memset(vis, false, sizeof vis);
     memset(from, -1, sizeof from);
-    int flag = 0;
+    queue<int> Q;
+    Q.push(src);
+    vis[src] = true;
+    bool done = false;
     while(!Q.empty()){
         int u = Q.front(); Q.pop();
         for(auto v : adj[u]){
             if(!vis[v] && residual[u][v] > 0){
                 Q.push(v);
-                vis[v] = 1;
+                vis[v] = true;
                 from[v] = u;
                 if(v == dest){
-                    flag = 1;
+                    done = true;
                     break;
                 }
             }
         }
-        if(flag)    break;
+        if(done)    break;
     }
     // find min from path
     int current = dest, path_capacity = INT_MAX;
     while(from[current] != -1){
-        int prev = from[current];
-        path_capacity = min(path_capacity, residual[prev][current]);
-        current = prev;
+        int parent = from[current];
+        path_capacity = min(path_capacity, residual[parent][current]);
+        current = parent;
     }
     // update residual
     current = dest;
     while(from[current] != -1){
-        int prev = from[current];
-        residual[prev][current] -= path_capacity;
-        residual[current][prev] += path_capacity;
-        current = prev;
+        int parent = from[current];
+        residual[parent][current] -= path_capacity;
+        residual[current][parent] += path_capacity;
+        current = parent;
     }
     if(path_capacity == INT_MAX)
         return 0;
@@ -85,6 +74,6 @@ int max_flow(){
 
 int main(){
     io;
-    
+        
     return 0;
 }
