@@ -64,7 +64,7 @@ int find_path(int src, int dest){
 int max_flow(){
     int res = 0;
     while(1){
-        int path_capacity = find_path();
+        int path_capacity = find_path(1, n);
         if(path_capacity == 0)
             break;
         res += path_capacity;
