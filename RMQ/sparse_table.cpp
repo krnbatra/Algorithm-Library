@@ -15,14 +15,19 @@ template <typename T> T invFermat(T a, T p){return mod_exp(a, p-2, p);}
 template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=p>>1;}return x;}
 
 const int MAXN = 1e5+5;
-int sparse_table[MAXN][(int)log2(MAXN)+1];
+const int LG = log2(MAXN) + 1;
+int sparse_table[MAXN][LG];
 int A[MAXN];
 int n;
 
+// <O(NlogN), O(1)>
+// query O(1) only for idempotent functions, otherwise O(log(n))
+
 void preprocess(){
-    for(int i = 0;i < n; i++)
+	// storing index of the minimum element
+    for(int i = 0; i < n; i++)
         sparse_table[i][0] = i;
-    for(int j = 1; (1 << j) <= n; j++){
+    for(int j = 1; j < LG; j++){
         for(int i = 0; i + (1 << j) - 1 < n; i++){
             if(A[sparse_table[i][j-1]] < A[sparse_table[i + (1 << (j-1))][j-1]])
                 sparse_table[i][j] = sparse_table[i][j-1];
@@ -33,9 +38,9 @@ void preprocess(){
 }
 
 int query(int left, int right){
-    int l = right - left + 1;
-    int k = log2(l);
-    return min(A[sparse_table[left][k]], A[sparse_table[left + l - (1 << k)][k]]);
+    int range = right - left + 1;
+    int k = log2(range);
+    return min(A[sparse_table[left][k]], A[sparse_table[right - (1 << k) + 1][k]]);
 }
 
 int main(){
