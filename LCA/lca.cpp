@@ -21,9 +21,14 @@ int n;
 vector<int> adj[MAXN];
 int level[MAXN], par[MAXN][LG];
 
-void dfs(int u, int parent){
-	level[u] = level[parent] + 1;
+void dfs(int u, int parent = -1){
 	par[u][0] = parent;
+	if(parent + 1)
+		level[u] = level[parent] + 1;
+	for(int i = 1; i < LG; i++){
+		if(par[u][i-1] != -1)
+			par[u][i] = par[par[u][i-1]][i-1];
+    }
 	for(auto v : adj[u]){
 		if(v == parent)	continue;
 		dfs(v, u);
@@ -47,6 +52,15 @@ int lca(int u, int v){
 	return par[u][0];
 }
 
+int kth(int n, int k){
+	int log = log2(level[n]);
+	for(int i = 0; i <= log; i++){
+		if(k & (1 << i))
+			n = par[n][i];
+	}
+	return n;
+}
+
 int main(){
     io;
     cin >> n;
@@ -57,14 +71,7 @@ int main(){
     	adj[b].push_back(a);
     }
     memset(par, -1, sizeof par);
-    level[0] = -1;
-    dfs(1, 0);
-    for(int j = 1; j < LG; j++){
-    	for(int i = 1; i <= n; i++){
-    		if(par[i][j-1] != -1)
-    			par[i][j] = par[par[i][j-1]][j-1];
-    	}
-    }
-    cout << lca(9, 12) << endl;
+    dfs(1);
+    cout << lca(1, 3) << endl;
     return 0;
 }
