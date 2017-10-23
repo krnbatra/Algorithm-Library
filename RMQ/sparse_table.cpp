@@ -16,7 +16,7 @@ template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=
 
 const int MAXN = 1e5+5;
 const int LG = log2(MAXN) + 1;
-int sparse_table[MAXN][LG];
+int sparse_table[LG][MAXN];
 int A[MAXN];
 int n;
 
@@ -24,15 +24,15 @@ int n;
 // query O(1) only for idempotent functions, otherwise O(log(n))
 
 void preprocess(){
-	// storing index of the minimum element
+    // storing index of the minimum element
     for(int i = 0; i < n; i++)
-        sparse_table[i][0] = i;
+        sparse_table[0][i] = i;
     for(int j = 1; j < LG; j++){
         for(int i = 0; i + (1 << j) - 1 < n; i++){
-            if(A[sparse_table[i][j-1]] < A[sparse_table[i + (1 << (j-1))][j-1]])
-                sparse_table[i][j] = sparse_table[i][j-1];
+            if(A[sparse_table[j-1][i]] < A[sparse_table[j-1][i + (1 << (j-1))]])
+                sparse_table[j][i] = sparse_table[j-1][i];
             else
-                sparse_table[i][j] = sparse_table[i + (1 << (j-1))][j-1];
+                sparse_table[j][i] = sparse_table[j-1][i + (1 << (j-1))];
         }
     }
 }
@@ -40,7 +40,7 @@ void preprocess(){
 int query(int left, int right){
     int range = right - left + 1;
     int k = log2(range);
-    return min(A[sparse_table[left][k]], A[sparse_table[right - (1 << k) + 1][k]]);
+    return min(A[sparse_table[k][left]], A[sparse_table[k][right - (1 << k) + 1]]);
 }
 
 int main(){
