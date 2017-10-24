@@ -1,4 +1,4 @@
-/*My First Template :D*/
+/*Let's get high :D*/
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -67,6 +67,7 @@ void init(){
 
 int main(){
     io;
+    init();
     string str = "karan";
     string str2 = "ka";
     addWord(&root, 0, str);
