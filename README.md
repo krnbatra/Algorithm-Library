@@ -1,3 +1,3 @@
 # Algorithm Library
 
-Few algorithms implementations.
+Implementations of a few Algorithms.
