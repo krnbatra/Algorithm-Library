@@ -56,10 +56,11 @@ void insert(node* curr, int n, int level){
 }
 
 void query(node* curr, int n, int level, int &ans){
-	if(level == -1)
+	if(level == -1 || curr == NULL)
 		return;
-	int bit = ((n>>level)&1);
-	if(bit){
+	// number max xor with n
+	int x = ((n >> level) & 1);
+	if(x){
 		if(curr->left != NULL){
 			ans += (1 << level);
 			query(curr->left, n, level-1, ans);
@@ -78,24 +79,19 @@ void query(node* curr, int n, int level, int &ans){
 
 int main(){
     io;
-    int t;
-    cin >> t;
-    while(t--){
-    	int n;
-    	cin >> n;
-    	int arr[n+1];
-    	for(int i = 1;i <= n; i++)
-    		cin >> arr[i];
-    	int pre = 0;
-    	int ans = 0;
-    	init();
-    	insert(&root, 0, 31);
-    	for(int i = 1;i <= n; i++){
-    		pre = pre^arr[i];
-    		insert(&root, pre, 31);
-    		ans = max(ans, query(&root, pre, 31, 0));
-    	}
-    	cout << ans << endl;
-    }
+	int n;
+	cin >> n;
+	int arr[n];
+	for(int i = 0; i < n; i++)
+		cin >> arr[i];
+	int ans = INT_MIN;
+	init();
+	for(int i = 0; i < n; i++){
+		int val = 0;
+		query(&root, arr[i], 31, val);
+		ans = max(ans, val);
+		insert(&root, arr[i], 31);
+	}
+	cout << ans << endl;
     return 0;
 }

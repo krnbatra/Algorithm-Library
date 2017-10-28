@@ -15,18 +15,18 @@ template <typename T> T invFermat(T a, T p){return mod_exp(a, p-2, p);}
 template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=p>>1;}return x;}
 
 const int MAXN = 500005;
-int sz = 0; // number of nodes in the trie
+int sz = 0;
 
-int trie[26][MAXN]; // MAXN represents the maximum number of nodes.
-int end1[MAXN];     // to indicate the end of word
+int trie[26][MAXN];
+int end1[MAXN];
 
 void insert(string s){
-    int v = 0;  // root is represented by 0
+    int v = 0;
     for(int i = 0; i < s.size(); i++){
-        int current_char = s[i]-'a';
-        if(trie[current_char][v] == -1) // initially trie is filled with -1
-            trie[current_char][v] = ++sz;
-        v = trie[current_char][v];
+        int c = s[i]-'a';
+        if(trie[c][v] == -1)
+            trie[c][v] = ++sz;
+        v = trie[c][v];
     }
     ++end1[v];
 }
@@ -35,10 +35,10 @@ bool searchPrefix(string prefix){
     int v = 0;
     int i;
     for(i = 0; i < prefix.size(); i++){
-        int current_char = prefix[i]-'a';
-        if(trie[current_char][v] == -1)
+        int c = prefix[i]-'a';
+        if(trie[c][v] == -1)
             return false;
-        v = trie[current_char][v];
+        v = trie[c][v];
     }
     return i == prefix.size();
 }
@@ -48,10 +48,10 @@ bool searchWord(string prefix){
     int v = 0;
     int i;
     for(i = 0; i < prefix.size(); i++){
-        int current = prefix[i]-'a';
-        if(trie[current][v] == -1)
+        int c = prefix[i]-'a';
+        if(trie[c][v] == -1)
             return false;
-        v = trie[current][v];
+        v = trie[c][v];
     }
     return end1[v] > 0;
 }
@@ -59,8 +59,7 @@ bool searchWord(string prefix){
 int main(){
     io;
     memset(trie, -1, sizeof trie);
-    insert("karan");
-    cout << searchWord("kara") << endl;
-    cout << searchPrefix("kara") << endl;
+    insert("abc");
+    cout << end1[3] << endl;
     return 0;
 }
