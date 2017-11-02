@@ -14,43 +14,46 @@ template <typename T> T mod_exp(T b, T p, T m){T x = 1;while(p){if(p&1)x=(x*b)%m
 template <typename T> T invFermat(T a, T p){return mod_exp(a, p-2, p);}
 template <typename T> T exp(T b, T p){T x = 1;while(p){if(p&1)x=(x*b);b=(b*b);p=p>>1;}return x;}
 
-const int MAXN = 1e3+5;
-int BIT[2][MAXN];
- 
-void update(int bit, int idx, int val){
-    while(idx <= 500000){
-        BIT[bit][idx] += val;
-        idx += idx&-idx;
-    }
+const int MAXN = 1e5+5;
+
+int BIT[MAXN];
+int bitmask = 1 << 10;
+
+int find(int cumFre){
+	// finds some index of corresponding cum freq
+	int idx = 0;
+	while(bitmask != 0 && idx < MAXN){
+		int tIdx = idx + bitmask;
+		if(cumFre == BIT[tIdx])
+			return tIdx;
+		else if(cumFre > BIT[tIdx]){
+			idx = tIdx;
+			cumFre -= BIT[tIdx];
+		}
+		bitmask >>= 1;
+	}
+	if(cumFre != 0)
+		return -1;
+	return idx;
 }
- 
-void udpateRange(int l, int r, int val){
-    update(0, l, val);
-    update(0, r+1, -val);
-    update(1, l, val*(l-1));
-    update(1, r+1, -val*r);
-}
- 
-int queryTree(int bit, int idx){
-    int sum = 0;
-    while(idx > 0){
-        sum += BIT[bit][idx];
-        idx -= idx&-idx;
-    }
-    return sum;
-}
- 
-int query(int idx){
-    return idx*queryTree(0, idx) - queryTree(1, idx);
-}
- 
-int queryRange(int l, int r){
-    return query(r)-query(l-1);
+
+int findG(int cumFre){
+	int idx = 0;
+	while(bitmask != 0 && idx < MAXN){
+		int tIdx = idx + bitmask;
+		if(cumFre >= BIT[tIdx]){
+			idx = tIdx;
+			cumFre -= BIT[tIdx];
+		}
+		bitmask >>= 1;
+	}
+	if(cumFre != 0)
+		return -1;
+	return idx;
 }
 
 int main(){
-    io;
-    udpateRange(2, 4, 2);
-    cout << queryRange(2, 3) << endl;
-    return 0;
+	io;
+	
+	return 0;
 }
