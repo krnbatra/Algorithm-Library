@@ -47,6 +47,7 @@ void union1(int a, int b){
 
 int main(){
 	io;
-
+	init();
+	
 	return 0;
 }
