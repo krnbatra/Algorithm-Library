@@ -9,7 +9,7 @@ typedef long long ll;
 
 const int MAXN = 1e5+5;
 bool vis[MAXN];
-int n, in_degree[MAXN];
+int n, indegree[MAXN];
 vector<int> adj[MAXN], topo;
 
 void topoSort(){
@@ -18,7 +18,7 @@ void topoSort(){
             indegree[v]++;
     set<int> S;
     for(int i = 1;i <= n; i++){
-        if(in_degree[i] == 0){
+        if(indegree[i] == 0){
             S.insert(i);
             vis[i] = true;
         }
@@ -54,8 +54,8 @@ int main(){
         // topoSort cannot be done. The input graph is not a DAG.
     }
     else{
-        for(int i = 0;i < topo.size(); i++){
-            cout << topo[i] << sp;
+        for(int i = 0; i < topo.size(); i++){
+            cout << topo[i] << " ";
         }
     }
     return 0;

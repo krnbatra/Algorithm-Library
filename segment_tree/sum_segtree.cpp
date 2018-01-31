@@ -19,7 +19,7 @@ void build(int node, int start,  int end){
 		tree[node] = arr[start];
 		return;
 	}
-	int mid = (start+end) >> 1;
+	int mid = (start + end) >> 1;
 	int left = node << 1, right = left + 1;
 	build(left, start, mid);
 	build(right, mid + 1, end);
@@ -32,7 +32,7 @@ int query(int node, int start, int end, int l, int r){
 		return 0; 
 	if(start >= l && end <= r)
 		return tree[node];
-	int mid = (start+end) >> 1;
+	int mid = (start + end) >> 1;
 	int left = node << 1, right = left + 1;
 	return query(left, start, mid, l, r) + query(right, mid + 1, end, l, r);
 }
@@ -43,7 +43,7 @@ void updateIndex(int node, int start, int end, int idx, int value){
 		tree[node] += value;
 		arr[idx] += value;
 	}else{
-		int mid = (start+end) >> 1;
+		int mid = (start + end) >> 1;
 		int left = node << 1, right = left + 1;
 		if(idx >= start && idx <= mid)
 			updateIndex(left, start, mid, idx, value);
@@ -63,7 +63,7 @@ void update(int node, int start, int end, int l, int r, int value){
 		arr[start] += value;
 		return;
 	}
-	int mid = (start+end) >> 1;
+	int mid = (start + end) >> 1;
 	int left = node << 1, right = left + 1;
 	update(left, start, mid, l, r, value);
 	update(right, mid + 1, end, l, r, value);

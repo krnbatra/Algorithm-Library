@@ -17,12 +17,12 @@ vector<pair<int, int> > bridges;
 
 void init(){
     currTime = 0;
-    for(int i = 1;i <= n; i++){adj[i].clear();vis[i]=false;AP[i]=false;disc[i]=0;low[i]=INT_MAX;}
+    for(int i = 1; i <= n; i++){adj[i].clear();vis[i]=false;AP[i]=false;disc[i]=0;low[i]=INT_MAX;}
 }
 
 void dfs(int u, int parent){
     vis[u] = true;
-    disc[u] = low[u] = currTime+1;  //since till now i have not explored the children of u all i know is the lowest numbered vertex which can be reached from u is u itself.
+    disc[u] = low[u] = currTime+1;
     int child = 0;
     for(auto v : adj[u]){
         if(v == parent)     continue;
@@ -30,7 +30,7 @@ void dfs(int u, int parent){
             child = child+1;
             currTime++;
             dfs(v, u);
-            //check if subtree rooted at v has a connection to one of the ancestors of u.
+            // check if subtree rooted at v has a connection to one of the ancestors of u.
             low[u] = min(low[u], low[v]);
             if(low[v] > disc[u]){
                 if(u < v)
@@ -54,7 +54,7 @@ int main(){
     io;
     cin >> n >> m;
     init();
-    for(int i = 0;i < m; i++){
+    for(int i = 0; i < m; i++){
         int a, b;
         cin >> a >> b;
         adj[a].push_back(b);
