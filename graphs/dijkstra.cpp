@@ -22,7 +22,7 @@ void init(){
     }
 }
 
-void dijkstra(int st, int finish){
+void dijkstra(int st){
     dist[st] = 0;
     multiset<pair<int, int> > S;
     S.insert({0,st});

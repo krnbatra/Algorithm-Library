@@ -6,6 +6,8 @@ typedef long long ll;
 #define EPS                 1e-9
 #define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
 
+
+const int MAXN = 1e5+5;
 int n;
 int parent[MAXN];
 int size[MAXN];
