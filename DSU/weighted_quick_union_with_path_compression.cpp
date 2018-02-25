@@ -31,7 +31,7 @@ bool find(int a, int b){
 	return root(a) == root(b);
 }
 
-void union1(int a, int b){
+void merge(int a, int b){
 	int root_a = root(a);
 	int root_b = root(b);
 	
