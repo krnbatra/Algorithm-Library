@@ -18,7 +18,7 @@ ll MOD1 = MOD;
 ll p1 = 43LL;
 ll MOD2 = MOD + 2;
 ll p2 = 107LL;
-ll power1[MAXN];
+ll power1[MAXN], modinv[MAXN];
 ll prefix[MAXN], suffix[MAXN];
 
 ll mod_sub(ll a, ll b, ll mod){
@@ -35,8 +35,12 @@ ll mod_mul(ll a, ll b, ll mod){
 
 void init(){
     power1[0] = 1;
-    for(int i = 1; i <= 100000; i++)
+    modinv[0] = 1;
+    ll MODINV = invFermat(p1, MOD);
+    for(int i = 1; i < MAXN; i++){
         power1[i] = mod_mul(power1[i - 1], p1, MOD);
+        modinv[i] = mod_mul(modinv[i - 1], MODINV, MOD);
+    }
 }
 
 void prefix_hash(){
@@ -57,7 +61,7 @@ void suffix_hash(){
 ll cal_hash(int l, int r){
     ll hash;
     if(l > 0)
-        hash = (mod_sub(prefix[r], prefix[l - 1], MOD) * invFermat(power1[l], MOD)) % MOD;
+        hash = mod_mul(mod_sub(prefix[r], prefix[l - 1], MOD), modinv[power1[l]], MOD);
     else
         hash = prefix[r];
     return hash;
@@ -66,7 +70,7 @@ ll cal_hash(int l, int r){
 ll cal_revhash(int l, int r){
     ll revHash;
     if(r > 0){
-        revHash = (mod_sub(suffix[n - l - 1], suffix[n - r - 2], MOD) * invFermat(power1[n - r - 1], MOD)) % MOD;
+        revHash = mod_mul(mod_sub(suffix[n - l - 1], suffix[n - r - 2], MOD), modinv[power1[n - r - 1]], MOD);
     }
     else{
         // r == 0 && l == 0
