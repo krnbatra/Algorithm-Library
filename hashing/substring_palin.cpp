@@ -61,7 +61,7 @@ void suffix_hash(){
 ll cal_hash(int l, int r){
     ll hash;
     if(l > 0)
-        hash = mod_mul(mod_sub(prefix[r], prefix[l - 1], MOD), modinv[power1[l]], MOD);
+        hash = mod_mul(mod_sub(prefix[r], prefix[l - 1], MOD), modinv[l], MOD);
     else
         hash = prefix[r];
     return hash;
@@ -70,7 +70,7 @@ ll cal_hash(int l, int r){
 ll cal_revhash(int l, int r){
     ll revHash;
     if(r > 0){
-        revHash = mod_mul(mod_sub(suffix[n - l - 1], suffix[n - r - 2], MOD), modinv[power1[n - r - 1]], MOD);
+        revHash = mod_mul(mod_sub(suffix[n - l - 1], suffix[n - r - 2], MOD), modinv[n - r - 1], MOD);
     }
     else{
         // r == 0 && l == 0
