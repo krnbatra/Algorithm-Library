@@ -15,7 +15,7 @@ bool vis[MAXN];
 stack<int> stk;
 
 void init(){
-    for(int i = 1;i <= n; i++){
+    for(int i = 1; i <= n; i++){
         vis[i] = false;
         adj[i].clear();
         adjReverse[i].clear();

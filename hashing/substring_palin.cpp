@@ -15,7 +15,7 @@ const int MAXN = 1e5 + 5;
 string str;
 int n;
 ll MOD1 = MOD;
-ll p1 = 43LL;
+ll p1 = 43LL;	// 31 and 53 are also good choices
 ll MOD2 = MOD + 2;
 ll p2 = 107LL;
 ll power1[MAXN], modinv[MAXN];
@@ -44,16 +44,16 @@ void init(){
 }
 
 void prefix_hash(){
-    prefix[0] = str[0];
+    prefix[0] = str[0] - 'a' + 1;
     for(int i = 1; i < str.size(); i++)
-        prefix[i] = mod_add(prefix[i - 1], mod_mul(str[i], power1[i], MOD), MOD);
+        prefix[i] = mod_add(prefix[i - 1], mod_mul(str[i] - 'a' + 1, power1[i], MOD), MOD);
 }
 
 void suffix_hash(){
-    suffix[0] = str[n-1];
+    suffix[0] = str[n-1] - 'a' + 1;
     int j = 1;
     for(int i = n-2; i >= 0; i--){
-        suffix[j] = mod_add(suffix[j - 1], mod_mul(str[i], power1[j], MOD), MOD);
+        suffix[j] = mod_add(suffix[j - 1], mod_mul(str[i] - 'a' + 1, power1[j], MOD), MOD);
         j++;
     }
 }
