@@ -16,21 +16,21 @@ void __f(const char* names, Arg1&& arg1, Args&&... args){
 #else
 #define trace(...)
 #endif
-
+ 
 #define MOD                 1000000007LL
 #define EPS                 1e-9
 #define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
-
+ 
 const int N = 5e5 + 5;
-
+ 
 vector<int> adj[N], adjR[N];
-int components[N];
+int components[N];   // components[i] indicates to which component vertex i belong to.
 int n, m, c;
 bool vis[N];
 stack<int> stk;
 vector<int> comp[N];
 vector<int> top_sort;
-
+ 
 void add_or(int u, int v, int rev){
 	u *= 2, v *= 2;
 	if(rev == 0){
@@ -41,7 +41,7 @@ void add_or(int u, int v, int rev){
 		adjR[u].push_back(v ^ 1);
 	}
 }
-
+ 
 void add_xor(int u, int v, int rev){
 	u *= 2, v *= 2;
 	if(rev == 0){
@@ -56,7 +56,7 @@ void add_xor(int u, int v, int rev){
 		adjR[u ^ 1].push_back(v);
 	}
 }
-
+ 
 void init(){
     c = 0;
     for(int i = 0; i <= 2 * n + 1; i++){
@@ -66,7 +66,7 @@ void init(){
         comp[i].clear();
     }
 }
-
+ 
 void dfs0(int u){
     vis[u] = 1;
     for(auto v : adj[u]){
@@ -75,7 +75,7 @@ void dfs0(int u){
     }
     stk.push(u);
 }
-
+ 
 void dfs1(int u){
     vis[u] = 1;
     components[u] = c;
@@ -85,7 +85,7 @@ void dfs1(int u){
             dfs1(v);
     }
 }
-
+ 
 void scc(){
     memset(vis, false, sizeof vis);
     while(!stk.empty()){
@@ -97,7 +97,7 @@ void scc(){
         }
     }
 }
-
+ 
 int main(){
 	io;
 	int t;
@@ -133,14 +133,10 @@ int main(){
 		memset(vis, false, sizeof vis);
 		cout << "possible" << "\n";
 		unordered_set<int> belongs_a;
-		for(int i = c; i >= 0; i--){
-			if(comp[i].size() == 0)	continue;
-			for(auto j : comp[i]){
-				if(vis[j / 2])	continue;
-				vis[j / 2] = 1;
-				if(j % 2 == 0)
-					belongs_a.insert(j / 2);
-			}
+		for(int i = 1; i <= n; i++){
+		    int a = 2 * i, b = 2 * i + 1;
+		    if(components[a] > components[b])
+		        belongs_a.insert(i);
 		}
 		string s;
 		for(int i = 1; i <= n; i++){
@@ -152,4 +148,4 @@ int main(){
 		cout << s << "\n";
 	}
 	return 0;
-}
+}  

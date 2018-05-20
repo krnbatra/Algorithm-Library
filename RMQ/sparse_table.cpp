@@ -6,10 +6,10 @@ typedef long long ll;
 #define EPS                 1e-9
 #define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
 
-const int MAXN = 1e5+5;
-const int LG = log2(MAXN) + 1;
-int sparse_table[LG][MAXN];
-int A[MAXN];
+const int N = 1e5 + 5;
+const int LG = log2(N) + 1;
+int sparse_table[LG][N];
+int A[N];
 int n;
 
 // <O(NlogN), O(1)>
@@ -38,7 +38,7 @@ int query(int left, int right){
 int main(){
     io;
     cin >> n;
-    for(int i = 0;i < n; i++)
+    for(int i = 0; i < n; i++)
         cin >> A[i];
     preprocess();
     int q;
