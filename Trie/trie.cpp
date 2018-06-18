@@ -6,7 +6,7 @@ typedef long long ll;
 #define EPS                 1e-9
 #define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
 
-const int MAXN = 26;
+const int N = 26;
 
 struct Trie{
     int words;
@@ -15,7 +15,7 @@ struct Trie{
     Trie(){
         words = 0;
         prefixes = 0;
-        for(int i = 0;i < MAXN; i++)
+        for(int i = 0; i < N; i++)
             edges[i] = NULL;
     }
 };
@@ -53,7 +53,7 @@ int countPrefixes(Trie* vertex, int idx, string &word){
 void init(){
     root.words = 0;
     root.prefixes = 0;
-    for(int i = 0;i < MAXN; i++)
+    for(int i = 0;i < N; i++)
         root.edges[i] = NULL;
 }
 

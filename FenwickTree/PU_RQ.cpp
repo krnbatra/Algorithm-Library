@@ -6,11 +6,11 @@ typedef long long ll;
 #define EPS                 1e-9
 #define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
 
-const int MAXN = 1e3+5;
-int BIT[MAXN], arr[MAXN];
+const int N = 1e3 + 5;
+int BIT[N], arr[N];
 
 void update(int idx, int val){
-    while(idx <= MAXN){
+    while(idx <= N){
         BIT[idx] += val;
         idx += idx & -idx;
     }

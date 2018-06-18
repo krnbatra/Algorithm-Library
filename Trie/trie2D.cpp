@@ -5,11 +5,11 @@ typedef long long ll;
 #define EPS                 1e-9
 #define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
 
-const int MAXN = 500005;
+const int N = 500005;
 int sz = 0;
 
-int trie[26][MAXN];
-int end1[MAXN];
+int trie[26][N];
+int end1[N];
 
 void insert(string s){
     int v = 0;
@@ -33,7 +33,6 @@ bool searchPrefix(string prefix){
     }
     return i == prefix.size();
 }
-
 
 bool searchWord(string prefix){
     int v = 0;

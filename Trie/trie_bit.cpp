@@ -1,89 +1,79 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
+
+#define TRACE
+#ifdef TRACE
+#define trace(...) __f(#__VA_ARGS__, __VA_ARGS__)
+template <typename Arg1>
+void __f(const char* name, Arg1&& arg1){
+  cerr << name << " : " << arg1 << std::endl;
+}
+template <typename Arg1, typename... Args>
+void __f(const char* names, Arg1&& arg1, Args&&... args){
+  const char* comma = strchr(names + 1, ',');cerr.write(names, comma - names) << " : " << arg1<<" | ";__f(comma+1, args...);
+}
+#else
+#define trace(...)
+#endif
  
 #define MOD                 1000000007LL
 #define EPS                 1e-9
 #define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
 
-const int MAXN = 1e5+5;
+const int N = 3e5 + 5;
+const int LOG = 31;
 
 struct node{
-	int leftc;
-	int rightc;
-	node* left;
-	node* right;
+	int present;
+	node* link[2];
+	
 	node(){
-		leftc = 0;
-		rightc = 0;
-		left = NULL;
-		right = NULL;
+		link[0] = link[1] = NULL;
+		present = 0;
+	}
+
+	void insert(int val){
+		node* current = this;
+		for(int i = LOG; i >= 0; i--){
+			int bit = (val & (1LL << i)) > 0;
+			if(current->link[bit] == NULL)
+				current->link[bit] = new node();
+			// bacche ko increase
+			current->link[bit]->present += 1;
+			current = current->link[bit];
+		}
+		return;
+	}
+
+	int query(int val){
+		node* current = this;
+		int ans = 0;
+		// number min xor with val
+		for(int i = LOG; i >= 0; i--){
+			int bit = (val & (1LL << i)) > 0;
+			if(current->link[bit] != NULL && current->link[bit]->present){
+				if(bit)	ans += (1 << i);
+				current->link[bit]->present -= 1;
+				current = current->link[bit];
+			}else{
+				bit ^= 1;
+				if(current->link[bit] != NULL && current->link[bit]->present){
+					if(bit)	ans += (1 << i);
+					current->link[bit]->present -= 1;
+					current = current->link[bit];
+				}
+			}
+		}
+		return ans;
 	}
 };
 
-node root;
-
-void init(){
-	root.leftc = 0;
-	root.rightc = 0;
-	root.left = NULL;
-	root.right = NULL;
-}
-
-void insert(node* curr, int n, int level){
-	if(level == -1)
-		return;
-	int x = ((n >> level) & 1);
-	if(x){
-		curr->rightc++;
-		if(curr->right == NULL)
-			curr->right = new node;
-		insert(curr->right, n, level-1);
-	}else{
-		curr->leftc++;
-		if(curr->left == NULL)
-			curr->left = new node;
-		insert(curr->left, n, level-1);
-	}
-}
-
-void query(node* curr, int n, int level, int &ans){
-	if(level == -1 || curr == NULL)
-		return;
-	// number max xor with n
-	int x = ((n >> level) & 1);
-	if(x){
-		if(curr->left != NULL){
-			ans += (1 << level);
-			query(curr->left, n, level-1, ans);
-		}else{
-			query(curr->right, n, level-1, ans);
-		}
-	}else{
-		if(curr->right != NULL){
-			ans += (1 << level);
-			query(curr->right, n, level-1, ans);
-		}else{
-			query(curr->left, n, level-1, ans);
-		}
-	}
-}
+node* root;
 
 int main(){
     io;
-	int n;
-	cin >> n;
-	int arr[n];
-	for(int i = 0; i < n; i++)
-		cin >> arr[i];
-	int ans = INT_MIN;
-	init();
-	for(int i = 0; i < n; i++){
-		int val = 0;
-		query(&root, arr[i], 31, val);
-		ans = max(ans, val);
-		insert(&root, arr[i], 31);
-	}
-	cout << ans << endl;
+	// root->insert()
+	// root->query()
     return 0;
 }
