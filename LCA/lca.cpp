@@ -1,25 +1,44 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
- 
+
+#define TRACE
+#ifdef TRACE
+#define trace(...) __f(#__VA_ARGS__, __VA_ARGS__)
+template <typename Arg1>
+void __f(const char* name, Arg1&& arg1){
+  cerr << name << " : " << arg1 << std::endl;
+}
+template <typename Arg1, typename... Args>
+void __f(const char* names, Arg1&& arg1, Args&&... args){
+  const char* comma = strchr(names + 1, ',');cerr.write(names, comma - names) << " : " << arg1<<" | ";__f(comma+1, args...);
+}
+#else
+#define trace(...)
+#endif
+
 #define MOD                 1000000007LL
 #define EPS                 1e-9
 #define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
 
-const int MAXN = 1e5+5;
-const int LG = log2(MAXN) + 1;
+const int N = 1e5 + 5;
+const int LOG = log2(N) + 1;
 
 int n;
-vector<int> adj[MAXN];
-int level[MAXN], par[MAXN][LG];
+vector<int> adj[N];
+int level[N], par[N][LOG];
+
+// <O(NlogN), O(logN)>
+
+// par[i][j] is 2^jth ancestor of i
 
 void dfs(int u, int parent = -1){
 	par[u][0] = parent;
-	if(parent + 1)
+	if(parent != -1)
 		level[u] = level[parent] + 1;
-	for(int i = 1; i < LG; i++){
-		if(par[u][i-1] != -1)
-			par[u][i] = par[par[u][i-1]][i-1];
+	for(int i = 1; i < LOG; i++){
+		if(par[u][i - 1] != -1)
+			par[u][i] = par[ par[u][i - 1] ][i - 1];
     }
 	for(auto v : adj[u]){
 		if(v == parent)	continue;
@@ -29,12 +48,18 @@ void dfs(int u, int parent = -1){
 
 int lca(int u, int v){
 	if(level[u] < level[v])	swap(u, v);
+	// level[u] >= leve[v]
 	int log = log2(level[u]);
-	for(int i = log; i >= 0; i--)
-		if(level[u]-level[v] >= (1 << i))
+	int to_cover = level[v] - level[u];	// make those jumps which bits are set in to_cover 
+	for(int i = log; i >= 0; i--){
+		// if we have the opportunity to jump 2^i upwards we jump
+		if(to_cover & (1 << i))
 			u = par[u][i];
+	}
 	if(u == v)
 		return u;
+	// levels of both u and v are equal now
+	// sort of binary lifting going up by highest exponent of 2
 	for(int i = log; i >= 0; i--){
 		if(par[u][i] != -1 && par[u][i] != par[v][i]){
 			u = par[u][i];
@@ -56,7 +81,7 @@ int kth(int n, int k){
 int main(){
     io;
     cin >> n;
-    for(int i = 0;i < n-1; i++){
+    for(int i = 1; i <= n - 1; i++){
     	int a, b;
     	cin >> a >> b;
     	adj[a].push_back(b);
