@@ -26,7 +26,7 @@ const int LOG = log2(N) + 1;
 
 int n;
 vector<int> adj[N];
-int level[N], par[N][LOG];
+int depth[N], par[N][LOG];
 
 // <O(NlogN), O(logN)>
 
@@ -35,7 +35,7 @@ int level[N], par[N][LOG];
 void dfs(int u, int parent = -1){
 	par[u][0] = parent;
 	if(parent != -1)
-		level[u] = level[parent] + 1;
+		depth[u] = depth[parent] + 1;
 	for(int i = 1; i < LOG; i++){
 		if(par[u][i - 1] != -1)
 			par[u][i] = par[ par[u][i - 1] ][i - 1];
@@ -47,20 +47,19 @@ void dfs(int u, int parent = -1){
 }
 
 int lca(int u, int v){
-	if(level[u] < level[v])	swap(u, v);
-	// level[u] >= leve[v]
-	int log = log2(level[u]);
-	int to_cover = level[v] - level[u];	// make those jumps which bits are set in to_cover 
-	for(int i = log; i >= 0; i--){
+	if(depth[u] < depth[v])	swap(u, v);
+	// depth[u] >= leve[v]
+	int diff = depth[v] - depth[u];	// make those jumps which bits are set in diff 
+	for(int i = LOG - 1; i >= 0; i--){
 		// if we have the opportunity to jump 2^i upwards we jump
-		if(to_cover & (1 << i))
+		if(diff & (1 << i))
 			u = par[u][i];
 	}
 	if(u == v)
 		return u;
-	// levels of both u and v are equal now
+	// depths of both u and v are equal now
 	// sort of binary lifting going up by highest exponent of 2
-	for(int i = log; i >= 0; i--){
+	for(int i = LOG - 1; i >= 0; i--){
 		if(par[u][i] != -1 && par[u][i] != par[v][i]){
 			u = par[u][i];
 			v = par[v][i];
@@ -70,8 +69,7 @@ int lca(int u, int v){
 }
 
 int kth(int n, int k){
-	int log = log2(level[n]);
-	for(int i = 0; i <= log; i++){
+	for(int i = 0; i < LOG; i++){
 		if(k & (1 << i))
 			n = par[n][i];
 	}

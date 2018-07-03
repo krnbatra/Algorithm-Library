@@ -10,10 +10,11 @@ const int N = 1e3 + 5;
 int BIT[N], arr[N];
 
 void update(int idx, int val){
-    while(idx <= N){
+    while(idx < N){
         BIT[idx] += val;
         idx += idx & -idx;
     }
+    return;
 }
 
 int query(int idx){
