@@ -1,22 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
- 
+
+#define TRACE
+#ifdef TRACE
+#define trace(...) __f(#__VA_ARGS__, __VA_ARGS__)
+template <typename Arg1>
+void __f(const char* name, Arg1&& arg1){
+  cerr << name << " : " << arg1 << std::endl;
+}
+template <typename Arg1, typename... Args>
+void __f(const char* names, Arg1&& arg1, Args&&... args){
+  const char* comma = strchr(names + 1, ',');cerr.write(names, comma - names) << " : " << arg1<<" | ";__f(comma+1, args...);
+}
+#else
+#define
+
 #define MOD                 1000000007LL
 #define EPS                 1e-9
 #define io                  ios_base::sync_with_stdio(false);cin.tie(NULL);
 
-const int MAXN = 1e5+5; 
+const int N = 1e5 + 5; 
 int n;
-int tree[4*MAXN];
-int arr[MAXN];
+int tree[4 * N];
+int A[N];
 
 // O(n)
-void build(int node, int start,  int end){
-	if(start > end)		return;
-
-	if(start==end){
-		tree[node] = arr[start];
+void build(int node, int start, int end){
+	if(start > end)		
+		return;
+	if(start == end){
+		tree[node] = A[start];
 		return;
 	}
 	int mid = (start + end) >> 1;
@@ -28,7 +42,7 @@ void build(int node, int start,  int end){
 
 // O(log(n))
 int query(int node, int start, int end, int l, int r){
-	if(start > end || start > r || end < l)
+	if(start > end or start > r or end < l)
 		return 0; 
 	if(start >= l && end <= r)
 		return tree[node];
@@ -41,11 +55,11 @@ int query(int node, int start, int end, int l, int r){
 void updateIndex(int node, int start, int end, int idx, int value){
 	if(start == end){
 		tree[node] += value;
-		arr[idx] += value;
+		A[idx] += value;
 	}else{
 		int mid = (start + end) >> 1;
 		int left = node << 1, right = left + 1;
-		if(idx >= start && idx <= mid)
+		if(idx >= start and idx <= mid)
 			updateIndex(left, start, mid, idx, value);
 		else
 			updateIndex(right, mid + 1, end, idx, value);
@@ -55,12 +69,12 @@ void updateIndex(int node, int start, int end, int idx, int value){
 
 // O(n)
 void update(int node, int start, int end, int l, int r, int value){
-	//no overlap of the l to r segment on the current segment
-	if(start > end || start > r || end < l)
+	// no overlap of the l to r segment on the current segment
+	if(start > end or start > r or end < l)
 		return;
 	if(start == end){
 		tree[node] += value;
-		arr[start] += value;
+		A[start] += value;
 		return;
 	}
 	int mid = (start + end) >> 1;

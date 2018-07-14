@@ -39,7 +39,7 @@ void dfs(int u, int parent = -1){
 	for(int i = 1; i < LOG; i++){
 		if(par[u][i - 1] != -1)
 			par[u][i] = par[ par[u][i - 1] ][i - 1];
-    }
+    }1
 	for(auto v : adj[u]){
 		if(v == parent)	continue;
 		dfs(v, u);
@@ -49,7 +49,7 @@ void dfs(int u, int parent = -1){
 int lca(int u, int v){
 	if(depth[u] < depth[v])	swap(u, v);
 	// depth[u] >= leve[v]
-	int diff = depth[v] - depth[u];	// make those jumps which bits are set in diff 
+	int diff = depth[u] - depth[v];	// make those jumps which bits are set in diff 
 	for(int i = LOG - 1; i >= 0; i--){
 		// if we have the opportunity to jump 2^i upwards we jump
 		if(diff & (1 << i))
@@ -79,7 +79,7 @@ int kth(int n, int k){
 int main(){
     io;
     cin >> n;
-    for(int i = 1; i <= n - 1; i++){
+    for(int i = 1; i < n; i++){
     	int a, b;
     	cin >> a >> b;
     	adj[a].push_back(b);
